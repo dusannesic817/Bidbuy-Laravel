@@ -45,4 +45,11 @@ class Auction extends Model
         return $this->hasMany(Offer::class);
     }
 
+    public function highestOffer()
+    {
+        return $this->hasOne(Offer::class)
+                    ->orderByDesc('price'); 
+    }
+
+
 }

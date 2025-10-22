@@ -13,6 +13,7 @@ class Offer extends Model
     protected $fillable = ['auction_id','user_id','price'];
 
 
+
     public function auction(): BelongsTo{
         return $this->belongsTo(Auction::class, 'auction_id');
     }
