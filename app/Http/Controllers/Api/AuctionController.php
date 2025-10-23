@@ -80,12 +80,12 @@ class AuctionController extends Controller
             'expiry_time' => ['required', 'date', 'after:now'],
         ]);
 
-        $auction->update($validated);  
+        $auction->update($validated);
 
         return response()->json([
             'success' => true,
             'message' => 'Successfully changed data!',
-        ], 200);  
+        ], 200);
     }
     /**
      * Remove the specified resource from storage.
@@ -94,4 +94,14 @@ class AuctionController extends Controller
     {
         return Auction::destroy($id);
     }
+
+    public function search(Request $request) { 
+        $query = $request->input('q', ''); 
+        $auctions = Auction::with(['user', 'highestOffer']) 
+        ->where('name', 'like', "%{$query}%") 
+        ->orWhere('short_description', 'like', "%{$query}%") 
+        ->paginate(10); 
+        return AuctionResource::collection($auctions);
+    }
+
 }

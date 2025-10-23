@@ -51,5 +51,6 @@ class Auction extends Model
                     ->orderByDesc('price'); 
     }
 
-
 }
+     
+

@@ -12,6 +12,8 @@ require __DIR__.'/auth.php';
 
 
 Route::get("/categories", [CategoryController::class,"index"])->name("categories.index");
+Route::get('/auctions/search', [AuctionController::class, 'search'])->name('auctions.search');
+
 
 //Auctions
 Route::get("/auctions", [AuctionController::class,"index"])->name("auctions.index");
