@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Auction;
+
 use App\Http\Resources\AuctionResource;
 
 class AuctionController extends Controller
@@ -32,13 +33,16 @@ class AuctionController extends Controller
      */
     public function show(string $id)
     {
+        
         $auction = Auction::with([
             'category.subcategories',
-            'user',
+            'user.reviews',
             'highestOffer'
         ])->findOrFail($id);
 
-        return new AuctionResource($auction);
+       // return $auction;
+
+       return new AuctionResource($auction);
     }
 
     /**

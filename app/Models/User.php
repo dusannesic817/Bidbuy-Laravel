@@ -61,4 +61,10 @@ class User extends Authenticatable
         return $this->hasMany(Review::class);
     }
 
+    public function activeAuctions(){
+        return $this->hasMany(Auction::class)
+            ->where('expiry_time', '>', now())
+            ->where("status" ,"=", "1");
+    }
+
 }

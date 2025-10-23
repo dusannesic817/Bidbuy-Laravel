@@ -15,6 +15,9 @@ class AuctionResource extends JsonResource
   // AuctionResource.php
 public function toArray($request): array
 {
+
+   
+
     return [
         'id' => $this->id,
         'title' => $this->name,
@@ -34,8 +37,22 @@ public function toArray($request): array
             'id' => $this->user->id,
             'name' => $this->user->name,
             'surname' => $this->user->surname,
-        ],
+            'username' =>$this->user->username,
+            'email'=> $this->user->email,
+            'number' =>$this->user->number,
+            'is_active' =>$this->user->is_active,
+            'created_at' =>$this->user->created_at,
 
+            $this->mergeWhen($request->routeIs('auctions.show'), function () {
+                $positiveMark = $this->user->reviews->where('mark', 1)->count();
+                $negativeMark = $this->user->reviews->where('mark', 0)->count();
+
+                return [
+                    'positive_reviews' => $positiveMark,
+                    'negative_reviews' => $negativeMark,
+                ];
+            }),
+        ],
        
         $this->mergeWhen($request->routeIs('auctions.show') && $this->relationLoaded('category'), [
             'category' => [
