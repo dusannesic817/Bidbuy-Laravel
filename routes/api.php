@@ -27,8 +27,11 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/test', function (Request $request) {
-        return 'text';
-    });
+
+    //Auctions
+    Route::post("/auctions", [AuctionController::class,"store"])->name("auctions.store");
+    Route::put("/auctions/{id}", [AuctionController::class,"update"])->name("auctions.update");
+    Route::delete("/auctions/{id}", [AuctionController::class,"destroy"])->name("auctions.destroy");
+    
 });
 

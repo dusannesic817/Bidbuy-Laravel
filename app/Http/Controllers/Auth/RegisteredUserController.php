@@ -19,15 +19,26 @@ class RegisteredUserController extends Controller
         // Validacija
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'username' => ['required', 'string', 'max:50', 'unique:users,password'],
+            'address' => ['required', 'string', 'max:255', 'unique:users,address'],
+            'number' => ['required', 'string', 'max:20', 'unique:users,number'],
+
         ]);
 
         // Kreiranje korisnika
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name'     =>   $request->name,
+            'surname'  =>   $request->surname,
+            'email'    =>   $request->email,
+            'password' =>   Hash::make($request->password),
+            'username' =>   $request->username,
+            'address'  =>   $request->address,
+            'number'   =>   $request->number,
+            'is_active' => 0
+
         ]);
 
         // Kreiranje API tokena
