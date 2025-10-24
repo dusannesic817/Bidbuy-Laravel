@@ -3,8 +3,7 @@
 use App\Http\Controllers\Api\AuctionController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\UserController;
-
-
+use App\Http\Controllers\Api\OfferController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +11,7 @@ require __DIR__.'/auth.php';
 
 
 Route::get("/categories", [CategoryController::class,"index"])->name("categories.index");
+//Route::get("/offers", [OfferController::class,"index"])->name("offers.index");
 Route::get('/auctions/search', [AuctionController::class, 'search'])->name('auctions.search');
 
 
@@ -34,6 +34,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post("/auctions", [AuctionController::class,"store"])->name("auctions.store");
     Route::put("/auctions/{id}", [AuctionController::class,"update"])->name("auctions.update");
     Route::delete("/auctions/{id}", [AuctionController::class,"destroy"])->name("auctions.destroy");
+
+    //Offer
+    Route::post('/auctions/{id}/offer', [OfferController::class, 'store'])->name('offers.store');
     
 });
 

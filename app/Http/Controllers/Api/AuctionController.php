@@ -15,8 +15,7 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        $auctions = Auction::with(['user', 'highestOffer'])->get();
-        return AuctionResource::collection($auctions);
+        
     }
 
 
@@ -98,9 +97,10 @@ class AuctionController extends Controller
     public function search(Request $request) { 
         $query = $request->input('q', ''); 
         $auctions = Auction::with(['user', 'highestOffer']) 
-        ->where('name', 'like', "%{$query}%") 
-        ->orWhere('short_description', 'like', "%{$query}%") 
-        ->paginate(10); 
+            ->where('name', 'like', "%{$query}%") 
+            ->orWhere('short_description', 'like', "%{$query}%") 
+            ->paginate(10); 
+
         return AuctionResource::collection($auctions);
     }
 
