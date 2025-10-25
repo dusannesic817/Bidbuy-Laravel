@@ -15,7 +15,8 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        
+        $auction = Auction::with(['highestOffer'])->get();
+        return AuctionResource::collection($auction);
     }
 
 

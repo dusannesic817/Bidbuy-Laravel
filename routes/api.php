@@ -29,7 +29,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-
     //Auctions
     Route::post("/auctions", [AuctionController::class,"store"])->name("auctions.store");
     Route::put("/auctions/{id}", [AuctionController::class,"update"])->name("auctions.update");
