@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
-
+//Categories and Subcategories
 Route::get("/categories", [CategoryController::class,"index"])->name("categories.index");
 Route::get("/categories/{id}", [CategoryController::class,"show"])->name("categories.show");
 Route::get("/subcategories/{id}", [CategoryController::class,"subcategory"])->name("categories.subcategory");
 
+
+//Search and Filters
 Route::get('/auctions/search', [AuctionController::class, 'search'])->name('auctions.search');
 
 
