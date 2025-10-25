@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuctionController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OfferController;
+use App\Http\Controllers\Api\SubcategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -11,7 +12,9 @@ require __DIR__.'/auth.php';
 
 
 Route::get("/categories", [CategoryController::class,"index"])->name("categories.index");
-//Route::get("/offers", [OfferController::class,"index"])->name("offers.index");
+Route::get("/categories/{id}", [CategoryController::class,"show"])->name("categories.show");
+Route::get("/subcategories/{id}", [CategoryController::class,"subcategory"])->name("categories.subcategory");
+
 Route::get('/auctions/search', [AuctionController::class, 'search'])->name('auctions.search');
 
 

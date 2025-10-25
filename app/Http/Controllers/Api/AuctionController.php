@@ -47,7 +47,6 @@ class AuctionController extends Controller
     {
 
         $auction = Auction::with([
-            'category.subcategories',
             'user.reviews',
             'highestOffer'
         ])->findOrFail($id);
