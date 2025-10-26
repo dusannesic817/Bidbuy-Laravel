@@ -62,7 +62,10 @@ class OfferController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id) {}
+    public function show(string $id) {
+        $offerHistrory = Offer::where('user_id', $id)->get();
+        return $offerHistrory;
+    }
 
     /**
      * Update the specified resource in storage.

@@ -18,7 +18,7 @@ class UserResource extends JsonResource
         $negativeMark = $this->reviews()->where('mark', 0)->count();
 
         return [
-
+            
             'id' =>$this->id,
             'name'=>$this->name,
             'surname'=>$this->surname,

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuctionController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OfferController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\SubcategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Offer
     Route::post('/auctions/{id}/offer', [OfferController::class, 'store'])->name('offers.store');
+    Route::get("/offers/{id}", [OfferController::class,"show"])->name("offers.show");
+
+    //Profile
+    Route::get("/profiles/{id}", [ProfileController::class,"show"])->name("profiles.index");
+    Route::delete("/profiles/{id}", [ProfileController::class,"destroy"])->name("profiles.destroy");
+    Route::put("/profiles/{id}", [ProfileController::class,"update"])->name("profiles.update");
+    
+    Route::get('/profiles/{id}/auctions', [ProfileController::class, 'myAuctions'])->name('profiles.myAuctions');
     
 });
 
