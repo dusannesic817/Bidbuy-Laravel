@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Review;
 
 class ReviewController extends Controller
 {
@@ -26,9 +27,11 @@ class ReviewController extends Controller
     /**
      * Display the specified resource.
      */
+
+    //prepraviti na auth
     public function show(string $id)
     {
-        //
+        $review = Review::where('user_id', $id)->findOrFail($id);
     }
 
     /**

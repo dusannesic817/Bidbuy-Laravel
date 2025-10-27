@@ -17,6 +17,7 @@ class Offer extends Model
     public function auction(): BelongsTo{
         return $this->belongsTo(Auction::class, 'auction_id');
     }
+    
 
     public function user(): BelongsTo{
         return $this->belongsTo(User::class,'user_id'); 

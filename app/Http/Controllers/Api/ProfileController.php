@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProfileAuctionResource;
-use App\Http\Resources\ProfileResource;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Offer;
-
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -31,14 +29,19 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+
+    //prepraviti na auth
+    public function myProfile()
     {
-        $profile = User::select('name', 'surname', 'username', 'email', 'password', 'address', 'number')->findOrFail(intval($id));
+        $profile = User::select('name', 'surname', 'username', 'email', 'password', 'address', 'number')->findOrFail(intval(Auth::id()));
         return $profile;
     }
-    public function myAuctions(string $id)
-    {
 
+
+    //prepraviti na auth
+    public function myAuctions()
+    {
+      
         $profile = User::with([
             'auctions' => function ($q) {
                 $q->where('status', 1);
@@ -48,14 +51,13 @@ class ProfileController extends Controller
             }, 
             'auctions.images',
             'auctions.highestOffer'
-        ])->findOrFail($id);
+        ])->findOrFail(Auth::id());
         
         return new ProfileAuctionResource($profile);
     }
 
 
     
-
     /**
      * Update the specified resource in storage.
      */

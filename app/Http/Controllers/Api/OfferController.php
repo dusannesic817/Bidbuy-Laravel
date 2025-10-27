@@ -7,6 +7,7 @@ use App\Models\Auction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Offer;
+use App\Http\Resources\OfferResource;
 
 class OfferController extends Controller
 {
@@ -16,9 +17,6 @@ class OfferController extends Controller
     public function index()
     {
         $auction = Auction::with('highestOffer')->find(1);
-       
-
-        $najveca = $auction->highestOffer->price ?? $auction->started_price;
         return $auction;
     }
 
@@ -37,7 +35,7 @@ class OfferController extends Controller
         $auction = Auction::with('highestOffer')->findOrFail($id);
         $currentPrice = $auction->highestOffer->price ?? $auction->started_price;
 
-        if($auction->user_id === Auth::id()){
+        if ($auction->user_id === Auth::id()) {
             return response()->json([
                 'message' => "You cannot place a bid on your own auction"
             ], 422);
@@ -62,9 +60,28 @@ class OfferController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id) {
-        $offerHistrory = Offer::where('user_id', $id)->get();
-        return $offerHistrory;
+
+    //prepraviti na auth
+    public function myOffers()
+    {
+
+        $active = Offer::with('auction.images')
+            ->where('user_id',Auth::id())
+            ->whereHas('auction', fn($q) => $q->where('status', 1))
+            ->latest()
+            ->get();
+
+        $expired = Offer::with('auction.images')
+            ->where('user_id', Auth::id())
+            ->whereHas('auction', fn($q) => $q->where('status', 0))
+            ->latest()
+            ->get();
+
+
+        return response()->json([
+            'active' => OfferResource::collection($active),
+            'expired' => OfferResource::collection($expired),
+        ]);
     }
 
     /**

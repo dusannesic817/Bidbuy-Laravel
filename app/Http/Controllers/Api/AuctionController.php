@@ -62,7 +62,7 @@ class AuctionController extends Controller
     public function update(Request $request, string $id)
     {
         $auction = Auction::findOrFail($id);
-
+        
         if ($auction->user_id !== Auth::id()) {
             return response()->json([
                 'success' => false,
