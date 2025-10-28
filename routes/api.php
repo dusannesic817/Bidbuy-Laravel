@@ -12,28 +12,26 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
-//Categories and Subcategories
-Route::get("/categories", [CategoryController::class,"index"])->name("categories.index");
-Route::get("/categories/{id}", [CategoryController::class,"show"])->name("categories.show");
-Route::get("/subcategories/{id}", [CategoryController::class,"subcategory"])->name("categories.subcategory");
+    //Categories and Subcategories
+    Route::get("/categories", [CategoryController::class,"index"])->name("categories.index");
+    Route::get("/categories/{id}", [CategoryController::class,"show"])->name("categories.show");
+    Route::get("/subcategories/{id}", [CategoryController::class,"subcategory"])->name("categories.subcategory");
 
+    //Search and Filters
+    Route::get('/auctions/search', [AuctionController::class, 'search'])->name('auctions.search');
 
-//Search and Filters
-Route::get('/auctions/search', [AuctionController::class, 'search'])->name('auctions.search');
+    //Auctions
+    Route::get("/auctions", [AuctionController::class,"index"])->name("auctions.index");
+    Route::get("/auctions/{id}", [AuctionController::class,"show"])->name("auctions.show");
 
-
-//Auctions
-Route::get("/auctions", [AuctionController::class,"index"])->name("auctions.index");
-Route::get("/auctions/{id}", [AuctionController::class,"show"])->name("auctions.show");
-
-//Users
-Route::get("/users/{id}", [UserController::class,"show"])->name("users.show");
+    //Users
+    Route::get("/users/{id}", [UserController::class,"show"])->name("users.show");
 
 
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+    /*Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+        return $request->user();
+    });*/
 
 Route::middleware(['auth:sanctum'])->group(function () {
     //Auctions
@@ -45,8 +43,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Offer
     Route::post('/auctions/{id}/offer', [OfferController::class, 'store'])->name('offers.store');
     Route::get("/offers/my-offers", [OfferController::class,"myOffers"])->name("offers.myOffers");
-
-    
 
     //Profile
     Route::get("/profiles/my-profile", [ProfileController::class,"myProfile"])->name("profiles.myProfile");

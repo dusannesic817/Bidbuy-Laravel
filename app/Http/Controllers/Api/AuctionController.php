@@ -16,6 +16,7 @@ class AuctionController extends Controller
     public function index()
     {
         $auction = Auction::with(['highestOffer'])->get();
+       
         return AuctionResource::collection($auction);
     }
 
@@ -113,14 +114,34 @@ class AuctionController extends Controller
         return Auction::destroy($id);
     }
 
-    public function search(Request $request) { 
-        $query = $request->input('q', ''); 
-        $auctions = Auction::with(['user', 'highestOffer']) 
-            ->where('name', 'like', "%{$query}%") 
-            ->orWhere('short_description', 'like', "%{$query}%") 
-            ->paginate(10); 
+   public function search(Request $request)
+{
+    $queryString = $request->input('q'); // search
+    $condition = $request->input('condition'); 
+    $minPrice = $request->input('min_price');
+    $maxPrice = $request->input('max_price');
 
-        return AuctionResource::collection($auctions);
-    }
+    $auctions = Auction::with(['user', 'highestOffer'])
+        ->when($queryString, function ($query) use ($queryString) {
+            $query->where(function ($q) use ($queryString) {
+                $q->where('name', 'like', "%{$queryString}%")
+                  ->orWhere('short_description', 'like', "%{$queryString}%");
+            });
+        })
+        ->when($condition, function ($query) use ($condition) {
+            $query->where('condition', $condition);
+        })
+        ->when($minPrice, function ($query) use ($minPrice) {
+            $query->where('starting_price', '>=', $minPrice);
+        })
+        ->when($maxPrice, function ($query) use ($maxPrice) {
+            $query->where('starting_price', '<=', $maxPrice);
+        })
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+    return AuctionResource::collection($auctions);
+}
+
 
 }

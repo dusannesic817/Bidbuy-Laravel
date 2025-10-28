@@ -24,8 +24,31 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        
+        $data = $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
+            'mark' => ['required', 'in:0,1'],
+        ]);
+
+        $data['reviewer_id'] = Auth::id();
+      
+        if ($data['user_id'] == $data['reviewer_id']) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You cannot review yourself.'
+            ], 422);
+        }
+
+        $review = Review::create($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully reviewed',
+            'data' => $review
+        ], 201);
     }
+
 
     /**
      * Display the specified resource.

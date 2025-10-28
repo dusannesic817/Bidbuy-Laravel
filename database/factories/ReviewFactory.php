@@ -20,6 +20,7 @@ class ReviewFactory extends Factory
          $user_id = User::pluck("id")->random() ?? fake()->numberBetween(1, 10);
         return [
             'user_id' => $user_id,
+            'reviewer' => $user_id,
             'mark'=> fake()->boolean()
 
         ];

@@ -33,8 +33,8 @@ class ProfileController extends Controller
     //prepraviti na auth
     public function myProfile()
     {
-        $profile = User::select('name', 'surname', 'username', 'email', 'password', 'address', 'number')->findOrFail(intval(Auth::id()));
-        return $profile;
+         return  User::findOrFail(intval(Auth::id()));
+       
     }
 
 
