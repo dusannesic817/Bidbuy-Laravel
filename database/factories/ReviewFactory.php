@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Auction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 
@@ -18,7 +19,9 @@ class ReviewFactory extends Factory
     public function definition(): array
     {
          $user_id = User::pluck("id")->random() ?? fake()->numberBetween(1, 10);
+         $auction_id = Auction::pluck("id")->random() ?? fake()->numberBetween(1, 10);
         return [
+            "auction_id"=> $auction_id,
             'user_id' => $user_id,
             'reviewer' => $user_id,
             'mark'=> fake()->boolean()

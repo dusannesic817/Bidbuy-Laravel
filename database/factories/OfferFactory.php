@@ -26,7 +26,7 @@ class OfferFactory extends Factory
             "auction_id" => $auction_id,
             "user_id"=> $user_id,
             'price' =>fake()->numberBetween(6100,10000),
-            
+            'status' =>fake()->randomElement(['Pending','Accepted','Rejected']),
         ];
     }
 }
