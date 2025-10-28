@@ -23,26 +23,38 @@ class AuctionController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'category_id' => ['required', 'exists:categories,id'],
-            'name'        => ['required', 'string', 'max:255'],
+    
+        $validated = $request->validate([
+            'category_id'       => ['required', 'exists:categories,id'],
+            'name'              => ['required', 'string', 'max:255'],
             'short_description' => ['required', 'string', 'max:200'],
-            'description'   => ['required', 'string'],
-            'started_price' => ['required', 'numeric', 'min:10'],
-            'expiry_time'   => ['required', 'date', 'after:now'],
-
+            'description'       => ['required', 'string'],
+            'started_price'     => ['required', 'numeric', 'min:10'],
+            'expiry_time'       => ['required', 'date', 'after:now'],
         ]);
 
-        $data['user_id'] = Auth::id();
-        $data['status'] = 1;
+    
+        $auctionData = [
+            'category_id' => $validated['category_id'],
+            'name'        => $validated['name'],
+            'short_description' => $validated['short_description'],
+            'description' => $validated['description'],
+            'started_price' => $validated['started_price'],
+            'expiry_time' => $validated['expiry_time'],
+            'user_id'     => Auth::id(), 
+            'status'      => 1,          
+        ];
 
-        Auction::create($data);
-
+      
+        Auction::create($auctionData);
+      
         return response()->json([
             'success' => true,
             'message' => 'Auction successfully created!',
+            
         ], 201);
     }
+
 
     public function show(string $id)
     {
@@ -75,10 +87,6 @@ class AuctionController extends Controller
     }
 
     
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $auction = Auction::findOrFail($id);
@@ -99,7 +107,15 @@ class AuctionController extends Controller
             'expiry_time' => ['required', 'date', 'after:now'],
         ]);
 
-        $auction->update($validated);
+        $auctionData = [
+            'category_id' => $validated['category_id'],
+            'name' => $validated['name'],
+            'short_description' => $validated['short_description'],
+            'description' => $validated['description'],
+            'started_price' => $validated['started_price'],
+            'expiry_time' => $validated['expiry_time'],
+        ];
+        $auction->update($auctionData);
 
         return response()->json([
             'success' => true,
