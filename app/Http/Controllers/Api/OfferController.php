@@ -84,6 +84,9 @@ class OfferController extends Controller
         ]);
     }
 
+    //moze videti sve ponude koje je dobio za neku Aukciju
+   
+
     /**
      * Update the specified resource in storage.
      */

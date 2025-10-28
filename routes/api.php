@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuctionController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\ProfileController;
@@ -39,16 +40,24 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post("/auctions", [AuctionController::class,"store"])->name("auctions.store");
     Route::put("/auctions/{id}", [AuctionController::class,"update"])->name("auctions.update");
     Route::delete("/auctions/{id}", [AuctionController::class,"destroy"])->name("auctions.destroy");
+    Route::get('/auctions/{auction}/offers', [AuctionController::class, 'auctionOffers'])->name('auctions.offers');
 
     //Offer
     Route::post('/auctions/{id}/offer', [OfferController::class, 'store'])->name('offers.store');
     Route::get("/offers/my-offers", [OfferController::class,"myOffers"])->name("offers.myOffers");
 
+    
+
     //Profile
-    Route::get("/my-profile", [ProfileController::class,"myProfile"])->name("profiles.myProfile");
+    Route::get("/profiles/my-profile", [ProfileController::class,"myProfile"])->name("profiles.myProfile");
     Route::delete("/profiles/{id}", [ProfileController::class,"destroy"])->name("profiles.destroy");
     Route::put("/profiles/{id}", [ProfileController::class,"update"])->name("profiles.update");
     Route::get('/profiles/my-auctions', [ProfileController::class, 'myAuctions'])->name('profiles.myAuctions');
+
+    //Review
+    Route::get("/reviews/my-reviews", [ReviewController::class,"myReviews"])->name("reviews.myReviews");
+
+
     
 });
 

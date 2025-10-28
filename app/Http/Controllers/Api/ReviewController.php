@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Review;
+use App\Http\Resources\ReviewResource;
+use Illuminate\Support\Facades\Auth;
+
 
 class ReviewController extends Controller
 {
@@ -29,10 +32,29 @@ class ReviewController extends Controller
      */
 
     //prepraviti na auth
-    public function show(string $id)
+    public function myReviews()
     {
-        $review = Review::where('user_id', $id)->findOrFail($id);
+        $reviews = Review::with( 'reviewer')
+            ->where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        $positiveCount = $reviews->getCollection()->where('mark', operator: 1)->count();
+        $negativeCount = $reviews->getCollection()->where('mark', operator: 0)->count();
+
+        return ReviewResource::collection($reviews)
+            ->additional([
+                'positive_count' => $positiveCount,
+                'negative_count' => $negativeCount,
+                'pagination' => [
+                    'current_page' => $reviews->currentPage(),
+                    'last_page' => $reviews->lastPage(),
+                    'per_page' => $reviews->perPage(),
+                    'total' => $reviews->total(),
+                ],
+            ]);
     }
+
 
     /**
      * Update the specified resource in storage.

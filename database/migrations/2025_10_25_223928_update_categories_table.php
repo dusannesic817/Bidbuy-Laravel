@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::table('categories', function (Blueprint $table) {
             $table->unsignedBigInteger('parent_id')->nullable()->after('id');
 
-            // opciono: foreign key ka istoj tabeli
+          
             $table->foreign('parent_id')
                   ->references('id')
                   ->on('categories')

@@ -56,6 +56,25 @@ class AuctionController extends Controller
         return new AuctionResource($auction);
     }
 
+    public function auctionOffers(Auction $auction)
+    {
+       
+        if ($auction->user_id !== Auth::id()) {
+            return response()->json([
+                'message' => 'You do not have permission to access this page.'
+            ], 403);
+        }
+
+        $offers = $auction->offers()->with('user')->get();
+
+        return response()->json([
+            'auction_id' => $auction->id,
+            'offers' => $offers
+        ]);
+    }
+
+    
+
     /**
      * Update the specified resource in storage.
      */
