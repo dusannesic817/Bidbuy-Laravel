@@ -52,6 +52,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Review
     Route::get("/reviews/my-reviews", [ReviewController::class,"myReviews"])->name("reviews.myReviews");
+    Route::post('/auctions/{auction}/review', [ReviewController::class, 'store']);
+    
 
 
     

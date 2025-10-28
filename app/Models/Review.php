@@ -10,7 +10,12 @@ class Review extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','mark'];
+    protected $fillable = [
+        'auction_id',
+        'user_id',
+        'reviewer_id',
+        'mark'
+    ];
 
      public function user(): BelongsTo{
         return $this->belongsTo(User::class,'user_id'); 

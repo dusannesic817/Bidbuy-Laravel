@@ -25,35 +25,49 @@ class OfferController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $data = $request->validate([
+        $request->validate([
             'price' => 'required|numeric|min:1',
         ]);
 
-        $data['auction_id'] = $id;
-        $data['user_id'] = Auth::id();
-
         $auction = Auction::with('highestOffer')->findOrFail($id);
-        $currentPrice = $auction->highestOffer->price ?? $auction->started_price;
 
         if ($auction->user_id === Auth::id()) {
             return response()->json([
+                'success' => false,
                 'message' => "You cannot place a bid on your own auction"
             ], 422);
         }
 
-        if ($data['price'] < $currentPrice + 20) {
+        if ($auction->expiry_time && now()->greaterThan($auction->expires_at)) {
             return response()->json([
-                'message' => "Offer must be minimum: " . ($currentPrice + 20),
+                'success' => false,
+                'message' => "This auction has already ended"
             ], 422);
         }
 
-        Offer::create($data);
+        $currentPrice = $auction->highestOffer->price ?? $auction->started_price;
+
+        if ($request->price < $currentPrice + 20) {
+            return response()->json([
+                'success' => false,
+                'message' => "Offer must be at least: " . ($currentPrice + 20)
+            ], 422);
+        }
+
+        Offer::create([
+            'auction_id' => $id,
+            'user_id'    => Auth::id(),
+            'price'      => $request->price,
+            'status'     => 'Pending', 
+        ]);
 
         return response()->json([
-            'message' => 'Your offer has been successfully created',
-            'current_price' => $data['price'],
+            'success' => true,
+            'message' => 'Your offer has been placed successfully',
+            'current_price' => $request->price,
         ], 201);
     }
+
 
 
 

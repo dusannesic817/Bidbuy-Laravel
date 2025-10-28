@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Review;
+use App\Models\Offer;
+use App\Models\Auction;
 use App\Http\Resources\ReviewResource;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,25 +24,48 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Auction $auction)
     {
 
-        
+
         $data = $request->validate([
-            'user_id' => ['required', 'exists:users,id'],
             'mark' => ['required', 'in:0,1'],
         ]);
 
-        $data['reviewer_id'] = Auth::id();
-      
-        if ($data['user_id'] == $data['reviewer_id']) {
-            return response()->json([
-                'success' => false,
-                'message' => 'You cannot review yourself.'
-            ], 422);
+        $userId = Auth::id();
+        if (!$userId) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
         }
 
-        $review = Review::create($data);
+        $offer = Offer::where('auction_id', $auction->id)
+            ->where('status', 'Accepted')
+            ->firstOrFail();
+
+       
+        $alreadyReviewed = Review::where('auction_id', $auction->id)
+            ->where('reviewer_id', $userId)
+            ->exists();
+
+        if ($alreadyReviewed) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Already reviewed.'
+            ], 422);
+        }
+        
+        if ($userId === $auction->user_id) {            
+            $userToReview = $offer->user_id;
+        } else {           
+            $userToReview = $auction->user_id;
+        }
+
+        $review = Review::create([
+            'auction_id'  => $auction->id,
+            'offer_id'    => $offer->id,
+            'user_id'     => $userToReview,
+            'reviewer_id' => $userId,
+            'mark'        => $data['mark'],
+        ]);
 
         return response()->json([
             'success' => true,

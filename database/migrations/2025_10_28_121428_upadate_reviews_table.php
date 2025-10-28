@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::table('reviews', function (Blueprint $table) {
             $table->unsignedBigInteger('reviewer_id')->nullable()->after('user_id');
-
-            $table->foreign('reviewer_id', 'review_reviewer_user_fk')
-                ->references('id')->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-                });
+            $table->unsignedBigInteger('auction_id')->nullable()->after('id');
+           
+            $table->foreign('reviewer_id', 'review_reviewer_user_fk')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('auction_id', 'review_auctions_auction_fk')->references('id')->on('auctions')->onUpdate('cascade')->onDelete('cascade');    
+        });
+          
     }
 
     /**
