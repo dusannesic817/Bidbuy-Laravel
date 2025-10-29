@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Auction;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\AuctionResource;
 
@@ -121,6 +122,23 @@ class AuctionController extends Controller
             'message' => 'Successfully changed data!',
         ], 200);
     }
+
+    public function followAuction($auctionId) { 
+        $user = Auth::user();
+        $user->followedAuctions()->syncWithoutDetaching([$auctionId]); 
+        return response()->json([ 'success' => true, 'message' => 'Auction followed.' ]); 
+    }
+
+
+     public function unfollowAuction($auctionId) {
+   
+        $user = Auth::user();
+        $user->followedAuctions()->detach($auctionId); 
+        return response()->json(data: [  
+            'success' => true, 
+            'message' => 'Auction unfollowed.' 
+        ]);
+     }
  
     public function destroy(string $id)
     {

@@ -36,8 +36,10 @@ require __DIR__.'/auth.php';
 Route::middleware(['auth:sanctum'])->group(function () {
     //Auctions
     Route::post("/auctions", [AuctionController::class,"store"])->name("auctions.store");
+    Route::post("/auctions/{id}/follow", [AuctionController::class,"followAuction"])->name("auctions.followAuction");
     Route::put("/auctions/{id}", [AuctionController::class,"update"])->name("auctions.update");
     Route::delete("/auctions/{id}", [AuctionController::class,"destroy"])->name("auctions.destroy");
+    Route::delete("/auctions/{id}/unfollow", [AuctionController::class,"unfollowAuction"])->name("auctions.unfollowAuction");
     Route::get('/auctions/{auction}/offers', [AuctionController::class, 'auctionOffers'])->name('auctions.offers');
 
     //Offer
