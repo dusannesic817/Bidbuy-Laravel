@@ -45,6 +45,16 @@ class Auction extends Model
         return $this->hasMany(Offer::class);
     }
 
+    public function followers() {
+        return $this->belongsToMany(
+            User::class,
+            'action_user_follows',
+            'auction_id',
+            'user_id'
+        )->withTimestamps();
+    }
+
+
     
 
     public function highestOffer()

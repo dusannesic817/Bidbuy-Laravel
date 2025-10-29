@@ -49,6 +49,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete("/profiles/{id}", [ProfileController::class,"destroy"])->name("profiles.destroy");
     Route::put("/profiles/{id}", [ProfileController::class,"update"])->name("profiles.update");
     Route::get('/profiles/my-auctions', [ProfileController::class, 'myAuctions'])->name('profiles.myAuctions');
+    Route::get('/profiles/followed-auctions', [ProfileController::class, 'followedAuctions'])->name('profiles.followedAuctions');
 
     //Review
     Route::get("/reviews/my-reviews", [ReviewController::class,"myReviews"])->name("reviews.myReviews");

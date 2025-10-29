@@ -64,10 +64,9 @@ class AuctionController extends Controller
             'highestOffer'
         ])->findOrFail($id);
 
-        // return $auction;
-
         return new AuctionResource($auction);
     }
+
 
     public function auctionOffers(Auction $auction)
     {
@@ -122,9 +121,7 @@ class AuctionController extends Controller
             'message' => 'Successfully changed data!',
         ], 200);
     }
-    /**
-     * Remove the specified resource from storage.
-     */
+ 
     public function destroy(string $id)
     {
         return Auction::destroy($id);

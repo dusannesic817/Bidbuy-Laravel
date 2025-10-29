@@ -93,13 +93,7 @@ class ReviewController extends Controller
         return ReviewResource::collection($reviews)
             ->additional([
                 'positive_count' => $positiveCount,
-                'negative_count' => $negativeCount,
-                'pagination' => [
-                    'current_page' => $reviews->currentPage(),
-                    'last_page' => $reviews->lastPage(),
-                    'per_page' => $reviews->perPage(),
-                    'total' => $reviews->total(),
-                ],
+                'negative_count' => $negativeCount,               
             ]);
     }
 

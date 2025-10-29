@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             SubcategorySeeder::class, 
             AuctionSeeder::class,
             OfferSeeder::class
-
+            ReviewSeeder::class
+            
         ]);*/
     }
 }

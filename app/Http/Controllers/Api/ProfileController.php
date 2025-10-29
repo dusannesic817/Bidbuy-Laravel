@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\FollowedAuctionsResource;
 use App\Http\Resources\ProfileAuctionResource;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -55,6 +56,16 @@ class ProfileController extends Controller
         
         return new ProfileAuctionResource($profile);
     }
+
+    public function followedAuctions()
+    {
+
+        $user = User::findOrFail(intval(Auth::id()));
+        $followed= $user->followedAuctions()->with('highestOffer','images')->paginate(10);
+        return FollowedAuctionsResource::collection($followed);
+        
+    }
+
 
 
     
