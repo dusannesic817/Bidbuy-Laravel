@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Auction;
 use App\Models\User;
+use App\Models\View;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\AuctionResource;
+use App\Services\ViewService;
 
 class AuctionController extends Controller
 {
@@ -16,7 +18,7 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        $auction = Auction::with(['highestOffer'])->get();
+        $auction = Auction::with(['highestOffer'])->paginate(30);
        
         return AuctionResource::collection($auction);
     }
@@ -57,14 +59,16 @@ class AuctionController extends Controller
     }
 
 
-    public function show(string $id)
+    public function show(Request $request, string $id, ViewService $viewService)
     {
 
         $auction = Auction::with([
             'user.reviews',
             'highestOffer'
         ])->findOrFail($id);
-
+        
+        $viewService->trackAuctionView($request, $auction->id);
+        //$this->view($request,$auction);
         return new AuctionResource($auction);
     }
 
@@ -173,6 +177,7 @@ class AuctionController extends Controller
 
     return AuctionResource::collection($auctions);
 }
+
 
 
 }

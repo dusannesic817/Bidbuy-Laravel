@@ -29,7 +29,10 @@ class UserResource extends JsonResource
             'number' =>$this->number,
             'is_active' =>$this->is_active,
 
-            'auctions'=>$this->activeAuctions,
+             'auctions' => $this->when(
+            request()->routeIs('users.auctions'), 
+                $this->activeAuctions
+            ),
 
             'reviews_summary' => [
                 'positive' => $postiveMark,

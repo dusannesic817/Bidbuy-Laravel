@@ -11,18 +11,14 @@ use App\Http\Resources\OfferResource;
 
 class OfferController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+ 
     public function index()
     {
-        $auction = Auction::with('highestOffer')->find(1);
-        return $auction;
+        return Auction::with('highestOffer')->find(1);
+       
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request, $id)
     {
         $request->validate([
@@ -68,14 +64,6 @@ class OfferController extends Controller
         ], 201);
     }
 
-
-
-
-    /**
-     * Display the specified resource.
-     */
-
-    //prepraviti na auth
     public function myOffers()
     {
 
@@ -98,7 +86,7 @@ class OfferController extends Controller
         ]);
     }
 
-    //moze videti sve ponude koje je dobio za neku Aukciju
+
    
 
     /**

@@ -30,10 +30,16 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-
-        $user = User::with(['activeAuctions','reviews'])->findOrFail($id);
+        $user = User::with(['reviews'])->findOrFail($id);
         return new UserResource($user);
     }
+
+    public function userAuctions(string $id){
+       $user= User::with(['activeAuctions','reviews'])->findOrFail($id);
+       return new UserResource($user);
+    }
+
+    
 
     /**
      * Update the specified resource in storage.
