@@ -88,14 +88,7 @@ class OfferController extends Controller
     }
 
 
-   
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Offer $offer)
-    {
-
+    public function patch (Request $request, Offer $offer){
         $highestOffer = Offer::with('auction')->where('auction_id', $offer->auction_id)
             ->orderByDesc('price')
             ->first();
@@ -125,6 +118,18 @@ class OfferController extends Controller
             'success'=>true,
             'message' => "The offer has been {$validated['status']}.",
         ]);
+    }
+
+
+   
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Offer $offer)
+    {
+
+        
 
 
     }

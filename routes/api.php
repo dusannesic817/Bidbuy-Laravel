@@ -49,7 +49,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Offer
     Route::post('/auctions/{id}/offer', [OfferController::class, 'store'])->name('offers.store');
     Route::get("/offers/my-offers", [OfferController::class,"myOffers"])->name("offers.myOffers");
-    Route::patch('/offers/{offer}', [OfferController::class, 'update'])->name('offers.update');
+    Route::patch('/offers/{offer}', [OfferController::class, 'patch'])->name('offers.patch');
 
     //Profile
     Route::get("/profiles/my-profile", [ProfileController::class,"myProfile"])->name("profiles.myProfile");
