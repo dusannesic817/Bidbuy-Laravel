@@ -31,9 +31,9 @@ require __DIR__.'/auth.php';
 
 
 
-    /*Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
         return $request->user();
-    });*/
+    });
 
 Route::middleware(['auth:sanctum'])->group(function () {
     //Auctions
@@ -49,6 +49,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Offer
     Route::post('/auctions/{id}/offer', [OfferController::class, 'store'])->name('offers.store');
     Route::get("/offers/my-offers", [OfferController::class,"myOffers"])->name("offers.myOffers");
+    Route::patch('/offers/{offer}', [OfferController::class, 'update'])->name('offers.update');
 
     //Profile
     Route::get("/profiles/my-profile", [ProfileController::class,"myProfile"])->name("profiles.myProfile");

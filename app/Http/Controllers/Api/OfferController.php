@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Offer;
 use App\Http\Resources\OfferResource;
 
+
 class OfferController extends Controller
 {
  
@@ -92,9 +93,40 @@ class OfferController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Offer $offer)
     {
-        //
+
+        $highestOffer = Offer::with('auction')->where('auction_id', $offer->auction_id)
+            ->orderByDesc('price')
+            ->first();
+
+        if($highestOffer->auction->user_id != Auth::id()){
+            return response()->json([
+                'success'=>false,
+                'message' => "You do not have permission to edit this auction.",
+            ]);
+        }
+
+        $validated = $request->validate([
+            'status' => 'required|in:Accepted,Rejected',
+        ]);
+
+        $highestOffer->update([
+            'status' => $validated['status'],
+        ]);
+
+        if ($validated['status']) {
+            $highestOffer->auction->update([
+                'status' => 0,               
+            ]);
+        }
+        
+        return response()->json([
+            'success'=>true,
+            'message' => "The offer has been {$validated['status']}.",
+        ]);
+
+
     }
 
     /**
