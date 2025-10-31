@@ -35,7 +35,7 @@ class OfferController extends Controller
             ], 422);
         }
 
-        if ($auction->expiry_time && now()->greaterThan($auction->expires_at)) {
+        if ($auction->expiry_time && now()->greaterThan($auction->expiry_time)) {
             return response()->json([
                 'success' => false,
                 'message' => "This auction has already ended"
@@ -120,7 +120,7 @@ class OfferController extends Controller
                 'status' => 0,               
             ]);
         }
-        
+
         return response()->json([
             'success'=>true,
             'message' => "The offer has been {$validated['status']}.",
