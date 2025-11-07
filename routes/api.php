@@ -1,15 +1,17 @@
 <?php
-
-use App\Http\Controllers\Api\AuctionController;
-use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\ReviewController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\ViewController;
-use App\Http\Controllers\Api\OfferController;
-use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\Api\SubcategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\{
+    AuctionController,
+    CategoryController,
+    OfferController,
+    ProfileController,
+    ReviewController,
+    UserController,
+    ViewController
+};
+
+
 
 require __DIR__.'/auth.php';
 
@@ -27,9 +29,9 @@ require __DIR__.'/auth.php';
 
     //Users
     Route::get("/users/{id}", [UserController::class,"show"])->name("users.show");
-   
     Route::get("/users/{id}/auctions", [UserController::class,"userAuctions"])->name("users.auctions");
 
+    //Offers
     Route::get("/offers", [OfferController::class,"index"])->name("offers.index");
 
     Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {

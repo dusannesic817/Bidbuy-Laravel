@@ -19,7 +19,7 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        $auction = Auction::with(['highestOffer'])->paginate(30);
+        $auction = Auction::with(['highestOffer'])->where('status',1)->paginate(30);
        
         return AuctionResource::collection($auction);
     }
