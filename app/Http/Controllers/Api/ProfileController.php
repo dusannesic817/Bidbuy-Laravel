@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FollowedAuctionsResource;
 use App\Http\Resources\ProfileAuctionResource;
+use App\Http\Resources\ProfileResource;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Auction;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -42,20 +44,15 @@ class ProfileController extends Controller
     //prepraviti na auth
     public function myAuctions()
     {
-      
         $profile = User::with([
-            'auctions' => function ($q) {
-                $q->where('status', 1);
-            }, 
-            'expiredAuctions' => function ($q) {
-                $q->where('status', 0);
-            }, 
             'auctions.images',
             'auctions.highestOffer'
         ])->findOrFail(Auth::id());
-        
+
         return new ProfileAuctionResource($profile);
+
     }
+
 
     public function followedAuctions()
     {
