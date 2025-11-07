@@ -18,8 +18,7 @@ class OfferController extends Controller
     public function index()
     {
         return Auction::with('highestOffer')->find(1);
-        $bidder = User::find($auction->user_id);
-        return $bidder;
+        
        
     }
 
@@ -61,8 +60,8 @@ class OfferController extends Controller
             'status'     => 'Pending', 
         ]);
 
-        $bidder = User::find($auction->user_id);
-        $bidder->notify(new AuctionActionNotification($auction, Auth::user(), 'bid'));
+        $auction->load('highestOffer');
+        $auction->user->notify(new AuctionActionNotification($auction, Auth::user(), 'bid'));
 
         return response()->json([
             'success' => true,
@@ -70,8 +69,7 @@ class OfferController extends Controller
             'current_price' => $request->price,
         ], 201);
 
-       
-
+    
     }
 
     public function myOffers()
