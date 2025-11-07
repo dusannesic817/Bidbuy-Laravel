@@ -47,10 +47,7 @@ class ReviewController extends Controller
             ->exists();
 
         if ($alreadyReviewed) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Already reviewed.'
-            ], 422);
+            return $this->errorMessage('Already reviewed.', 422);
         }
         
         if ($userId === $auction->user_id) {            
@@ -67,11 +64,8 @@ class ReviewController extends Controller
             'mark'        => $data['mark'],
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Successfully reviewed',
-            'data' => $review
-        ], 201);
+       
+        return $this->successMessage('Review submitted successfully.', ['data' => $review]);
     }
 
 

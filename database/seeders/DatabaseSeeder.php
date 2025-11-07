@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
        /* $this->call([ 
             UserSeeder::class, 
             CategorySeeder::class, 
-            SubcategorySeeder::class, 
             AuctionSeeder::class,
             OfferSeeder::class
             ReviewSeeder::class
+            ViewSeeder::class
             
         ]);*/
     }

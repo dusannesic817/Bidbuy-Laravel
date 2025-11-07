@@ -51,12 +51,8 @@ class AuctionController extends Controller
 
       
         Auction::create($auctionData);
-      
-        return response()->json([
-            'success' => true,
-            'message' => 'Auction successfully created!',
-            
-        ], 201);
+
+        return $this->successMessage('Auction successfully created!');
     }
 
 
@@ -69,7 +65,6 @@ class AuctionController extends Controller
         ])->findOrFail($id);
         
         $viewService->trackAuctionView($request, $auction->id);
-        //$this->view($request,$auction);
         return new AuctionResource($auction);
     }
 
@@ -78,9 +73,7 @@ class AuctionController extends Controller
     {
        
         if ($auction->user_id !== Auth::id()) {
-            return response()->json([
-                'message' => 'You do not have permission to access this page.'
-            ], 403);
+           return $this->errorMessage('You do not have permission to view offers for this auction.', 403);
         }
 
         $offers = $auction->offers()->with('user')->get();
@@ -97,12 +90,9 @@ class AuctionController extends Controller
         $auction = Auction::findOrFail($id);
         
         if ($auction->user_id !== Auth::id()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'You do not have permission to edit this auction.',
-            ], 403);
+           return $this->errorMessage('You do not have permission to edit this auction.', 403);
         }
-
+        
         $validated = $request->validate([
             'category_id' => ['required', 'exists:categories,id'],
             'name' => ['required', 'string', 'max:255'],
@@ -122,10 +112,7 @@ class AuctionController extends Controller
         ];
         $auction->update($auctionData);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Successfully changed data!',
-        ], 200);
+       return $this->successMessage('Successfully changed data!');
     }
 
     public function followAuction($auctionId) { 
@@ -135,10 +122,7 @@ class AuctionController extends Controller
         $auction = Auction::find($auctionId);
         $auction->user->notify(new AuctionActionNotification($auction, $user, 'followed'));
 
-        return response()->json([ 
-            'success' => true, 
-            'message' => 'Auction followed.' 
-        ]); 
+       return $this->successMessage('Auction has been followed.');
     }
 
 
@@ -146,15 +130,15 @@ class AuctionController extends Controller
    
         $user = Auth::user();
         $user->followedAuctions()->detach($auctionId); 
-        return response()->json(data: [  
-            'success' => true, 
-            'message' => 'Auction unfollowed.' 
-        ]);
+        
+        return $this->successMessage('Auction has been unfollowed.');
      }
  
     public function destroy(string $id)
     {
         return Auction::destroy($id);
+
+        
     }
 
    public function search(Request $request)
