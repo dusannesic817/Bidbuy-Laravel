@@ -10,6 +10,7 @@ use App\Models\View;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\AuctionResource;
 use App\Services\ViewService;
+use App\Notifications\AuctionActionNotification;
 
 class AuctionController extends Controller
 {
@@ -129,8 +130,15 @@ class AuctionController extends Controller
 
     public function followAuction($auctionId) { 
         $user = Auth::user();
-        $user->followedAuctions()->syncWithoutDetaching([$auctionId]); 
-        return response()->json([ 'success' => true, 'message' => 'Auction followed.' ]); 
+        $user->followedAuctions()->syncWithoutDetaching([$auctionId]);
+
+        $auction = Auction::find($auctionId);
+        $auction->user->notify(new AuctionActionNotification($auction, $user, 'followed'));
+
+        return response()->json([ 
+            'success' => true, 
+            'message' => 'Auction followed.' 
+        ]); 
     }
 
 

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Auction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Offer;
 use App\Http\Resources\OfferResource;
+use App\Notifications\AuctionActionNotification;
 
 
 class OfferController extends Controller
@@ -16,9 +18,10 @@ class OfferController extends Controller
     public function index()
     {
         return Auction::with('highestOffer')->find(1);
+        $bidder = User::find($auction->user_id);
+        return $bidder;
        
     }
-
 
     public function store(Request $request, $id)
     {
@@ -58,11 +61,17 @@ class OfferController extends Controller
             'status'     => 'Pending', 
         ]);
 
+        $bidder = User::find($auction->user_id);
+        $bidder->notify(new AuctionActionNotification($auction, Auth::user(), 'bid'));
+
         return response()->json([
             'success' => true,
             'message' => 'Your offer has been placed successfully',
             'current_price' => $request->price,
         ], 201);
+
+       
+
     }
 
     public function myOffers()
@@ -104,6 +113,8 @@ class OfferController extends Controller
             'status' => 'required|in:Accepted,Rejected',
         ]);
 
+       
+
         $highestOffer->update([
             'status' => $validated['status'],
         ]);
@@ -113,6 +124,11 @@ class OfferController extends Controller
                 'status' => 0,               
             ]);
         }
+
+        $bidder = User::find($highestOffer->user_id);
+        $auction = Auction::find($highestOffer->auction_id);
+        $bidder->notify(new AuctionActionNotification($auction, Auth::user(), strtolower($validated['status'])));
+        
 
         return response()->json([
             'success'=>true,

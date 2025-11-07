@@ -27,9 +27,10 @@ require __DIR__.'/auth.php';
 
     //Users
     Route::get("/users/{id}", [UserController::class,"show"])->name("users.show");
+   
     Route::get("/users/{id}/auctions", [UserController::class,"userAuctions"])->name("users.auctions");
 
-
+    Route::get("/offers", [OfferController::class,"index"])->name("offers.index");
 
     Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
         return $request->user();
