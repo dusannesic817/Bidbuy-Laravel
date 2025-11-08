@@ -44,15 +44,24 @@ class ProfileController extends Controller
     //prepraviti na auth
     public function myAuctions()
     {
-        $profile = User::with([
-            'auctions.images',
-            'auctions.highestOffer'
-        ])->findOrFail(Auth::id());
 
-        return new ProfileAuctionResource($profile);
+        $status = request('status'); 
+        $query = Auth::user()->auctions()->with(['images', 'highestOffer'])->orderByDesc('created_at');
+
+        if ($status === 'active') {
+            $query->where('status', 1);
+        } elseif ($status === 'expired') {
+            $query->where('status', 0);
+        }
+
+        $my_auctions = $query->paginate(10);
+
+        return response()->json([
+            'success' => true,
+            'data' => ProfileAuctionResource::collection($my_auctions),
+        ]);
 
     }
-
 
     public function followedAuctions()
     {

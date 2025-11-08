@@ -25,6 +25,11 @@ class ReviewResource extends JsonResource
                 'surname' => $this->reviewer->surname ?? null,
                 'email' => $this->reviewer->email ?? null,
             ],
+
+            'auction' => [
+                'id' => $this->auction->id ?? null,
+                'name' => $this->auction->name ?? null,
+            ],  
         ];
     }
 }

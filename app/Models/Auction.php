@@ -45,6 +45,10 @@ class Auction extends Model
         return $this->hasMany(Offer::class);
     }
 
+    public function reviews(): HasMany{
+        return $this->hasMany(Review::class);
+    }
+
     public function followers() {
         return $this->belongsToMany(
             User::class,

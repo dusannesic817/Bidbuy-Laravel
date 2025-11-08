@@ -55,8 +55,9 @@ class User extends Authenticatable
     }
 
 
-    public function auctions(): HasMany{
-        return $this->hasMany(Auction::class);
+    public function auctions()
+    {
+        return $this->hasMany(Auction::class, 'user_id'); 
     }
     public function expiredAuctions() {
         return $this->hasMany(Auction::class)->where('status', 0);

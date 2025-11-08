@@ -25,4 +25,8 @@ class Review extends Model
     {
         return $this->belongsTo(User::class, 'reviewer_id');
     }
+
+    public function auction(): BelongsTo{
+        return $this->belongsTo(Auction::class,'auction_id'); 
+    }
 }

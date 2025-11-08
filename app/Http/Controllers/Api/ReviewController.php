@@ -73,23 +73,44 @@ class ReviewController extends Controller
      * Display the specified resource.
      */
 
+
     //prepraviti na auth
     public function myReviews()
     {
-        $reviews = Review::with( 'reviewer')
+       
+        $role = request('role');
+        
+        $reviews = Review::with(['user','reviewer','auction'])
             ->where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc')
+            ->orWhere('reviewer_id', Auth::id())
+            ->orderByDesc('created_at')
             ->paginate(10);
 
-        $positiveCount = $reviews->getCollection()->where('mark', operator: 1)->count();
-        $negativeCount = $reviews->getCollection()->where('mark', operator: 0)->count();
 
-        return ReviewResource::collection($reviews)
-            ->additional([
-                'positive_count' => $positiveCount,
-                'negative_count' => $negativeCount,               
-            ]);
+        if ($role === 'seller') {
+            $reviews = $reviews->where('user_id', Auth::id())->values();
+        } elseif ($role === 'buyer') {
+            $reviews = $reviews->where('reviewer_id', Auth::id())->values();
+        }
+
+       
+        $totalPositive = $reviews->where('mark', 1)->count();
+        $totalNegative = $reviews->where('mark', 0)->count();
+        $total = $reviews->count();
+
+       
+        return response()->json([
+            'success' => true,
+            'data' => ReviewResource::collection($reviews),
+            'stats' => [
+                'total_positive' => $totalPositive,
+                'total_negative' => $totalNegative,
+                'total_reviews' => $total,
+            ]
+        ]);
     }
+
+
 
 
     /**
