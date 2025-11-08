@@ -26,7 +26,7 @@ class ProfileResource extends JsonResource
                         'current_price' => $auction->highestOffer->price ?? $auction->started_price,                       
                         'expiry_time' => $auction->expiry_time,
                         'status' => $auction->status,
-                        'image' => optional($auction->images->first())->url,                                                                  
+                        'image' => optional($auction->images->first())->img_path,                                                                  
                     ];
                 });
             }),

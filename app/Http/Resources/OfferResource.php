@@ -22,7 +22,7 @@ class OfferResource extends JsonResource
                 'id' => $this->auction->id,
                 'title' => $this->auction->name,
                 'short_description'=> $this->auction->short_description,
-                'image' => $this->auction->images->first()->path ?? null,
+                'image' => $this->auction->images->first()->img_path ?? null,
                 'status' => $this->auction->status,
                 'price' => $this->price,
                 'expires_at' => $this->auction->expiry_time ?? null,

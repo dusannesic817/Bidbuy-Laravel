@@ -20,6 +20,7 @@ public function toArray($request): array
         'title' => $this->name,
         'short_description' => $this->short_description,
         'current_price' => $this->highestOffer->price ?? $this->started_price,
+        'image' => $this->images->first()->img_path ?? null,
 
         $this->mergeWhen($request->routeIs('auctions.show'), [
             'description' => $this->description,
@@ -36,6 +37,12 @@ public function toArray($request): array
                 'number' => $this->user->number,
                 'is_active' => $this->user->is_active,
                 'created_at' => $this->user->created_at,
+            ],
+            'images' =>[
+                'auction_id' => $this->id,
+                'images' => $this->images->map(function($image) {
+                    return $image->img_path;
+                }),
             ]
         ]),
 

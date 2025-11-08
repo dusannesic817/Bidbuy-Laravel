@@ -20,7 +20,7 @@ class FollowedAuctionsResource extends JsonResource
         'short_description' => $this->short_description,
         'expired_time' =>$this->expiry_time,
         'highest_offer' => $this->highestOffer ? $this->highestOffer->price : null,
-        'image' => optional($this->images->first())->url,
+        'image' => optional($this->images->first())->img_path,
     ];
 }
 
