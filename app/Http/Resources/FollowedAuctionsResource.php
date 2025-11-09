@@ -20,7 +20,9 @@ class FollowedAuctionsResource extends JsonResource
         'short_description' => $this->short_description,
         'expired_time' =>$this->expiry_time,
         'highest_offer' => $this->highestOffer ? $this->highestOffer->price : null,
-        'image' => optional($this->images->first())->img_path,
+        'image' => $this->images->isNotEmpty()
+            ? asset('storage/' . $this->images->first()->img_path)
+            : asset('storage/images/default.jpg'),
     ];
 }
 

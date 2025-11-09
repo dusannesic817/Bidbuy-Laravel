@@ -20,7 +20,9 @@ public function toArray($request): array
         'title' => $this->name,
         'short_description' => $this->short_description,
         'current_price' => $this->highestOffer->price ?? $this->started_price,
-        'image' => $this->images->first()->img_path ?? null,
+        'image' => $this->images->isNotEmpty()
+            ? asset('storage/' . $this->images->first()->img_path)
+            : asset('storage/images/default.jpg'),
 
         $this->mergeWhen($request->routeIs('auctions.show'), [
             'description' => $this->description,
@@ -40,9 +42,10 @@ public function toArray($request): array
             ],
             'images' =>[
                 'auction_id' => $this->id,
-                'images' => $this->images->map(function($image) {
-                    return $image->img_path;
-                }),
+                'images' => $this->images->isNotEmpty()
+                    ? $this->images->map(function($image) {
+                        return asset('storage/' . $image->img_path);
+                }) : asset('storage/images/default.jpg'),
             ]
         ]),
 
@@ -57,6 +60,5 @@ public function toArray($request): array
         }),       
     ];
 }
-
 
 }

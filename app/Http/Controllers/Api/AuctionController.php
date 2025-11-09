@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Auction;
 use App\Models\User;
+use App\Models\Image;
 use App\Models\View;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\AuctionResource;
 use App\Services\ViewService;
 use App\Notifications\AuctionActionNotification;
+use Illuminate\Support\Facades\Log;
 
 class AuctionController extends Controller
 {
@@ -19,8 +21,11 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        $auction = Auction::with(['highestOffer','images'])->where('status',1)->paginate(30);
-       
+       $auction = Auction::with(['highestOffer', 'images'])
+                    ->where('status', 1)
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(30);
+
         return AuctionResource::collection($auction);
     }
 
@@ -35,7 +40,10 @@ class AuctionController extends Controller
             'description'       => ['required', 'string'],
             'started_price'     => ['required', 'numeric', 'min:10'],
             'expiry_time'       => ['required', 'date', 'after:now'],
+            'images'            => ['nullable', 'array', 'max:6'],
+            'images.*'          => ['file', 'image', 'max:5120'],
         ]);
+       
 
     
         $auctionData = [
@@ -50,7 +58,20 @@ class AuctionController extends Controller
         ];
 
       
-        Auction::create($auctionData);
+        $auction= Auction::create($auctionData);
+
+        if($request->has('images')){
+            foreach($request->file('images') as $image){
+                $img_name = 'auction-'.$auction->id.'-'.time().rand(1,1000).'.'.$image->extension();
+                $imagePath = $image->storeAs('auction_images', $img_name, 'public');
+                Image::create([
+                    'auction_id' => $auction->id,
+                    'img_path' => $imagePath
+                ]);
+            }
+            
+           
+        }
 
         return $this->successMessage('Auction successfully created!');
     }

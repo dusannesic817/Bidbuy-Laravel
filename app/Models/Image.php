@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Image extends Model
 {
     
-    protected $fillable = ['auciton_id','img_path'];
+    protected $fillable = ['auction_id', 'img_path'];
 
 
     public function auction(): BelongsTo{
