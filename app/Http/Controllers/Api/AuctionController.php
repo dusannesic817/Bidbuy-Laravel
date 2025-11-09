@@ -95,21 +95,21 @@ class AuctionController extends Controller
         }
         
         $validated = $request->validate([
-            'category_id' => ['required', 'exists:categories,id'],
-            'name' => ['required', 'string', 'max:255'],
+            'category_id'       => ['required', 'exists:categories,id'],
+            'name'              => ['required', 'string', 'max:255'],
             'short_description' => ['required', 'string', 'max:200'],
-            'description' => ['required', 'string'],
-            'started_price' => ['required', 'numeric', 'min:10'],
-            'expiry_time' => ['required', 'date', 'after:now'],
+            'description'       => ['required', 'string'],
+            'started_price'     => ['required', 'numeric', 'min:10'],
+            'expiry_time'       => ['required', 'date', 'after:now'],
         ]);
 
         $auctionData = [
-            'category_id' => $validated['category_id'],
-            'name' => $validated['name'],
+            'category_id'       => $validated['category_id'],
+            'name'              => $validated['name'],
             'short_description' => $validated['short_description'],
-            'description' => $validated['description'],
-            'started_price' => $validated['started_price'],
-            'expiry_time' => $validated['expiry_time'],
+            'description'       => $validated['description'],
+            'started_price'     => $validated['started_price'],
+            'expiry_time'       => $validated['expiry_time'],
         ];
         $auction->update($auctionData);
 
@@ -144,10 +144,10 @@ class AuctionController extends Controller
 
    public function search(Request $request)
 {
-    $queryString = $request->input('q'); // search
-    $condition = $request->input('condition'); 
-    $minPrice = $request->input('min_price');
-    $maxPrice = $request->input('max_price');
+    $queryString = $request->input('q'); 
+    $condition   = $request->input('condition'); 
+    $minPrice    = $request->input('min_price');
+    $maxPrice    = $request->input('max_price');
 
     $auctions = Auction::with(['user', 'highestOffer'])
         ->when($queryString, function ($query) use ($queryString) {

@@ -101,11 +101,11 @@ class ReviewController extends Controller
        
         return response()->json([
             'success' => true,
-            'data' => ReviewResource::collection($reviews),
+            'data'  => ReviewResource::collection($reviews),
             'stats' => [
                 'total_positive' => $totalPositive,
                 'total_negative' => $totalNegative,
-                'total_reviews' => $total,
+                'total_reviews'  => $total,
             ]
         ]);
     }
