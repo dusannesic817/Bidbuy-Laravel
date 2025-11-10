@@ -40,11 +40,11 @@ class OfferController extends Controller
 
         $currentPrice = $auction->highestOffer->price ?? $auction->started_price;
 
-        if ($request->price < $currentPrice + 20) {
-           return $this->errorMessage('Offer must be at least: ' . ($currentPrice + 20), 422);
+        if ($request->price < $this->minimalOfferPrice($currentPrice)) {
+           return $this->errorMessage('Offer must be at least: ' . ($this->minimalOfferPrice($currentPrice)), 422);
         }
 
-        Offer::create([
+        $offer=Offer::create([
             'auction_id' => $id,
             'user_id'    => Auth::id(),
             'price'      => $request->price,
@@ -54,7 +54,7 @@ class OfferController extends Controller
         $auction->load('highestOffer');
         $auction->user->notify(new AuctionActionNotification($auction, Auth::user(), 'bid'));
 
-        return $this->successMessage('Your offer has been placed successfully', ['current_price' => $request->price]);
+        return $this->successMessage('Your offer has been placed successfully', ['data' => $offer], 201);
 
     }
 
@@ -81,7 +81,7 @@ class OfferController extends Controller
     }
 
 
-    public function patch (Request $request, Offer $offer){
+    public function patch (Request $request, Offer $offer){ //menjam status aukcije na osnovu najvise ponude
         $highestOffer = Offer::with('auction')->where('auction_id', $offer->auction_id)
             ->orderByDesc('price')
             ->first();
@@ -130,4 +130,20 @@ class OfferController extends Controller
     {
         //
     }
+
+
+    public function minimalOfferPrice($currentPrice){
+
+        if($currentPrice < 100){
+            return $currentPrice + 2;
+        } elseif ($currentPrice >= 100 && $currentPrice < 1000){
+            return $currentPrice + 5;
+        } elseif ($currentPrice >= 1000 && $currentPrice < 10000){
+            return $currentPrice + 20;
+        } else {
+            return $currentPrice + 50;
+        }
+
+    }
+
 }

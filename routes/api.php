@@ -12,12 +12,7 @@ use App\Http\Controllers\Api\{
     ImageController
 };
 
-
-
-
 require __DIR__.'/auth.php';
-
-    
 
     //Categories and Subcategories
     Route::get("/categories", [CategoryController::class,"index"])->name("categories.index");
@@ -50,7 +45,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete("/auctions/{id}", [AuctionController::class,"destroy"])->name("auctions.destroy");
     Route::delete("/auctions/{id}/unfollow", [AuctionController::class,"unfollowAuction"])->name("auctions.unfollowAuction");
     Route::get('/auctions/{auction}/offers', [AuctionController::class, 'auctionOffers'])->name('auctions.offers');
-    
+
 
     //Offer
     Route::post('/auctions/{id}/offer', [OfferController::class, 'store'])->middleware('throttle:5,1')->name('offers.store');

@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 abstract class Controller
 {
 
-    protected function successMessage($message, $additional = []){
+    protected function successMessage($message, $data = [], $code = 200){
         return response()->json(array_merge([
             'success' => true,
             'message' => $message
-        ], $additional));
+        ], $data), $code);
     }
 
     protected function errorMessage($message,$code = 400){

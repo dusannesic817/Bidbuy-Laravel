@@ -20,7 +20,7 @@ class ViewFactory extends Factory
 
         $auction_id = Auction::pluck("id")->random() ?? fake()->numberBetween(1, 10);
         return [
-           'auction_id' => $auction_id,
+           'auction_id' => Auction::factory(),
            'ip_address' => $this->faker->ipv4(),
            'user_agent' => $this->faker->userAgent(),
         ];

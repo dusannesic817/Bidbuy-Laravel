@@ -19,12 +19,12 @@ class OfferFactory extends Factory
     public function definition(): array
     {
 
-         $user_id = User::pluck("id")->random() ?? fake()->numberBetween(1, 10);
-         $auction_id = Auction::pluck("id")->random() ?? fake()->numberBetween(1, 10);
+         //$user_id = User::pluck("id")->random() ?? fake()->numberBetween(1, 10);
+         //$auction_id = Auction::pluck("id")->random() ?? fake()->numberBetween(1, 10);
 
         return [
-            "auction_id" => $auction_id,
-            "user_id"=> $user_id,
+            "auction_id" => Auction::factory(),
+            "user_id"=> User::factory(),
             'price' =>fake()->numberBetween(6100,10000),
             'status' =>fake()->randomElement(['Pending','Accepted','Rejected']),
         ];

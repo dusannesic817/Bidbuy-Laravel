@@ -20,12 +20,12 @@ class AuctionFactory extends Factory
     public function definition(): array
     {   
 
-        $user_id = User::pluck("id")->random() ?? fake()->numberBetween(1, 10);
-        $category_id = Category::pluck("id")->random() ?? fake()->numberBetween(1, 10);
+       // $user_id = User::pluck("id")->random() ?? fake()->numberBetween(1, 10);
+        //$category_id = Category::pluck("id")->random() ?? fake()->numberBetween(1, 10);
 
         return [
-            'user_id' => $user_id,
-            'category_id' => $category_id,
+            'user_id' => User::factory(),
+            'category_id' => Category::factory(),
             'name' => ucfirst(fake()->words(2, true)),
             'short_description' => fake()->text(50),
             'description' => fake()->text(300),

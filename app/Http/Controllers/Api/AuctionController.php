@@ -73,7 +73,7 @@ class AuctionController extends Controller
            
         }
 
-        return $this->successMessage('Auction successfully created!');
+        return $this->successMessage('Auction successfully created!', ['data' => $auction], 201);
     }
 
 
@@ -137,7 +137,9 @@ class AuctionController extends Controller
         ];
         $auction->update($auctionData);
 
-       return $this->successMessage('Successfully changed data!');
+        return $this->successMessage('Successfully changed data!', ['data' => $auction]);
+
+   
     }
 
     public function followAuction($auctionId) { 
