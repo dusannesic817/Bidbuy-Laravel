@@ -33,7 +33,6 @@ public function toArray($request): array
             'user' => [
                 'id' => $this->user->id,
                 'name' => $this->user->name,
-                'surname' => $this->user->surname,
                 'username' => $this->user->username,
                 'email' => $this->user->email,
                 'number' => $this->user->number,

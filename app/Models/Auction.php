@@ -52,14 +52,12 @@ class Auction extends Model
     public function followers() {
         return $this->belongsToMany(
             User::class,
-            'action_user_follows',
+            'auction_user_follows',
             'auction_id',
             'user_id'
         )->withTimestamps();
     }
 
-
-    
 
     public function highestOffer()
     {

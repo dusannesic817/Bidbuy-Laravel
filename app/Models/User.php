@@ -23,10 +23,9 @@ class User extends Authenticatable
     protected $fillable = [
         'google_id',
         'name',
-        'surname',
-        'email',
-        'password',
         'username',
+        'email',
+        'password',        
         'address',
         'number',
         'is_active'
@@ -76,7 +75,7 @@ class User extends Authenticatable
     public function followedAuctions(): BelongsToMany {
         return $this->belongsToMany(
             Auction::class,
-            'action_user_follows',
+            'auction_user_follows',
             'user_id',
             'auction_id'
         )->withTimestamps();

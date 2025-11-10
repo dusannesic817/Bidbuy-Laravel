@@ -23,7 +23,7 @@ class ReviewFactory extends Factory
         return [
             "auction_id"=> $auction_id,
             'user_id' => $user_id,
-            'reviewer' => $user_id,
+            'reviewer_id' => $user_id,
             'mark'=> fake()->boolean()
 
         ];

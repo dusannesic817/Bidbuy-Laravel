@@ -19,7 +19,6 @@ class RegisteredUserController extends Controller
         // Validacija
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'username' => ['required', 'string', 'max:50', 'unique:users,password'],
@@ -31,7 +30,6 @@ class RegisteredUserController extends Controller
         // Kreiranje korisnika
         $user = User::create([
             'name'     =>   $request->name,
-            'surname'  =>   $request->surname,
             'email'    =>   $request->email,
             'password' =>   Hash::make($request->password),
             'username' =>   $request->username,
