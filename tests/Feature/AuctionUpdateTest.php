@@ -43,7 +43,7 @@ class AuctionUpdateTest extends TestCase
     public function test_user_cannot_update_someone_elses_auction()
     {
         $owner = User::factory()->create();
-        $intruder = User::factory()->create();
+        $bidder = User::factory()->create();
         $category = Category::factory()->create();
         $auction = Auction::factory()->create([
             'user_id' => $owner->id,
@@ -59,7 +59,7 @@ class AuctionUpdateTest extends TestCase
             'expiry_time' => now()->addDays(5)->toDateTimeString(),
         ];
 
-        $response = $this->actingAs($intruder)->putJson("/api/auctions/{$auction->id}", $payload);
+        $response = $this->actingAs($bidder)->putJson("/api/auctions/{$auction->id}", $payload);
 
         $response->assertStatus(403);
         $response->assertJsonFragment([
