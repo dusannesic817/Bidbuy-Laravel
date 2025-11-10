@@ -11,8 +11,7 @@ class AuctionUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_update_their_own_auction()
-    {
+    public function test_user_can_update_their_own_auction(){
         $user = User::factory()->create();
         $category = Category::factory()->create();
         $auction = Auction::factory()->create([
@@ -40,8 +39,7 @@ class AuctionUpdateTest extends TestCase
         ]);
     }
 
-    public function test_user_cannot_update_someone_elses_auction()
-    {
+    public function test_user_cannot_update_someone_elses_auction(){
         $owner = User::factory()->create();
         $bidder = User::factory()->create();
         $category = Category::factory()->create();

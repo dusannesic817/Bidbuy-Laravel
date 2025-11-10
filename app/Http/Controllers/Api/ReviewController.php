@@ -65,7 +65,7 @@ class ReviewController extends Controller
         ]);
 
        
-        return $this->successMessage('Review submitted successfully.', ['data' => $review]);
+        return $this->successMessage('Review submitted successfully.', ['data' => $review], 201);
     }
 
 

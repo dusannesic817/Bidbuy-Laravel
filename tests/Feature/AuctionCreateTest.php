@@ -10,8 +10,7 @@ class AuctionCreateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_authenticated_user_can_create_auction()
-    {
+    public function test_authenticated_user_can_create_auction(){
         $user = User::factory()->create();
         $category = Category::factory()->create();
 

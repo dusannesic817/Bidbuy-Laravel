@@ -18,8 +18,7 @@ class OfferCreateTest extends TestCase
      /**
       * A basic feature test example.
       */
-    public function test_authenticated_user_can_create_offer(): void
-    {
+    public function test_authenticated_user_can_create_offer(): void{
         $bidder = User::factory()->create();
         $owner = User::factory()->create();
         $category = Category::factory()->create();
@@ -42,8 +41,7 @@ class OfferCreateTest extends TestCase
         ]);
     }
 
-    public function test_user_cannot_create_offer_on_own_auction(): void
-    {
+    public function test_user_cannot_create_offer_on_own_auction(): void{
         $owner = User::factory()->create();
         $category = Category::factory()->create();
         $auction = Auction::factory()->create([
@@ -90,11 +88,7 @@ class OfferCreateTest extends TestCase
                 'price' => $case['expected_price'], 
                 'message' => 'Your offer has been placed successfully',
           ]);
-
         }
-
-    
-
     }
    
 }

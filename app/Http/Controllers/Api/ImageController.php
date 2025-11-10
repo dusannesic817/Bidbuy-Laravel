@@ -35,13 +35,13 @@ class ImageController extends Controller
             $img_name = 'auction-'.$auction->id.'-'.time().rand(1,1000).'.'.$image->extension();
             $imagePath = $image->storeAs('auction_images', $img_name, 'public');
 
-            Image::create(attributes: [
+            $image=Image::create(attributes: [
                 'auction_id' => $auction->id,
                 'img_path'  => $imagePath,
             ]);
         }
 
-        return $this->successMessage('Images uploaded successfully');
+        return $this->successMessage('Images uploaded successfully', $image=[], 201);
 
     }
 
