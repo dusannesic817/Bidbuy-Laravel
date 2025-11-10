@@ -41,6 +41,7 @@ public function toArray($request): array
                 'created_at' => $this->user->created_at,
             ],
             'images' =>[
+                'id' => $this->id,
                 'auction_id' => $this->id,
                 'images' => $this->images->isNotEmpty()
                     ? $this->images->map(function($image) {

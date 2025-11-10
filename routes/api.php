@@ -8,12 +8,16 @@ use App\Http\Controllers\Api\{
     ProfileController,
     ReviewController,
     UserController,
-    ViewController
+    ViewController,
+    ImageController
 };
 
 
 
+
 require __DIR__.'/auth.php';
+
+    
 
     //Categories and Subcategories
     Route::get("/categories", [CategoryController::class,"index"])->name("categories.index");
@@ -66,7 +70,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Views
     Route::get("/views/{id}", [ViewController::class,"count"])->name("views.count");
 
-
+    //Images
+    Route::post("/auctions/{id}/images", [ImageController::class,"store"])->name("images.store");
+    Route::delete("/images/{id}", [ImageController::class,"destroy"])->name("images.destroy");
+    Route::delete("/auctions/{auction}/images", [ImageController::class, "destroyAll"])->name("images.destroyAll");
     
 });
 

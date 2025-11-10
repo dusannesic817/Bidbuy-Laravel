@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\AuctionResource;
 use App\Services\ViewService;
 use App\Notifications\AuctionActionNotification;
-use Illuminate\Support\Facades\Log;
+
 
 class AuctionController extends Controller
 {
@@ -122,6 +122,9 @@ class AuctionController extends Controller
             'description'       => ['required', 'string'],
             'started_price'     => ['required', 'numeric', 'min:10'],
             'expiry_time'       => ['required', 'date', 'after:now'],
+            'images' => ['nullable', 'array', 'max:6'],
+            'images.*' => ['file', 'image', 'max:5120'],
+
         ]);
 
         $auctionData = [
