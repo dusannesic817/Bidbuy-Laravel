@@ -61,6 +61,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Review
     Route::get("/reviews/my-reviews", [ReviewController::class,"myReviews"])->name("reviews.myReviews");
+    Route::post("/auctions/{auction}/reviews", [ReviewController::class,"store"])->name("reviews.store");
 
     //Views
     Route::get("/views/{id}", [ViewController::class,"count"])->name("views.count");
@@ -71,5 +72,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete("/auctions/{auction}/images", [ImageController::class, "destroyAll"])->name("images.destroyAll");
     
 });
+
 
 

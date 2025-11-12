@@ -36,4 +36,20 @@ class AuctionCreateTest extends TestCase
             'category_id' => $category->id,
         ]);
     }
+    public function test_auction_creation_fails_when_required_fields_are_missing(): void
+{
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->postJson('/api/auctions', []);
+
+    $response->assertStatus(422);
+    $response->assertJsonValidationErrors([
+        'category_id',
+        'name',
+        'short_description',
+        'description',
+        'started_price',
+        'expiry_time',
+    ]);
+}
 }

@@ -27,7 +27,6 @@ class ReviewController extends Controller
     public function store(Request $request, Auction $auction)
     {
 
-
         $data = $request->validate([
             'mark' => ['required', 'in:0,1'],
         ]);
@@ -58,7 +57,6 @@ class ReviewController extends Controller
 
         $review = Review::create([
             'auction_id'  => $auction->id,
-            'offer_id'    => $offer->id,
             'user_id'     => $userToReview,
             'reviewer_id' => $userId,
             'mark'        => $data['mark'],

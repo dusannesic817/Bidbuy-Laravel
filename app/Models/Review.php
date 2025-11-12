@@ -14,7 +14,8 @@ class Review extends Model
         'auction_id',
         'user_id',
         'reviewer_id',
-        'mark'
+        'mark',
+       
     ];
 
      public function user(): BelongsTo{
