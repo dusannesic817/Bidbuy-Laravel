@@ -62,7 +62,7 @@ class ReviewController extends Controller
             'mark'        => $data['mark'],
         ]);
 
-       
+        $offer->user->notify(new \App\Notifications\AuctionActionNotification($auction, Auth::user(), 'review'));       
         return $this->successMessage('Review submitted successfully.', ['data' => $review], 201);
     }
 

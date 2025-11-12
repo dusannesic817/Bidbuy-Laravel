@@ -29,6 +29,7 @@ class AuctionActionNotification extends Notification
             'rejected' => "Your offer on {$this->auction->name} was rejected by {$this->sender->name}, {$this->auction->highestOffer->price} RSD",
             'expired' => "Your auction {$this->auction->name} has expired!",
             'followed' => "{$this->sender->name} is now following your auction: {$this->auction->name}",
+            'review' => "{$this->sender->name} has left a review for you on the auction: {$this->auction->name}",
             default => "You have a new update regarding {$this->auction->title}",
         };
 
