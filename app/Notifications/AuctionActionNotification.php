@@ -13,7 +13,7 @@ class AuctionActionNotification extends Notification
     public function __construct(
         public $auction,
         public $sender, 
-        public string $type // 'bid', 'accepted', 'rejected'
+        public string $type 
     ) {}
 
     public function via($notifiable)

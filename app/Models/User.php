@@ -70,6 +70,13 @@ class User extends Authenticatable
     public function reviews(): HasMany{
         return $this->hasMany(Review::class);
     }
+    public function chatRooms(): BelongsToMany {
+        return $this->belongsToMany(ChatRoom::class, 'chat_room_user');
+    }
+
+    public function messages(): HasMany {
+        return $this->hasMany(Message::class);
+    }
 
 
     public function followedAuctions(): BelongsToMany {

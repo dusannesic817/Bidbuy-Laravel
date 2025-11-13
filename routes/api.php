@@ -4,12 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\{
     AuctionController,
     CategoryController,
+    ChatRoomController,
     OfferController,
     ProfileController,
     ReviewController,
     UserController,
     ViewController,
-    ImageController
+    ImageController,
+    MessageController
 };
 
 require __DIR__.'/auth.php';
@@ -70,6 +72,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post("/auctions/{id}/images", [ImageController::class,"store"])->name("images.store");
     Route::delete("/images/{id}", [ImageController::class,"destroy"])->name("images.destroy");
     Route::delete("/auctions/{auction}/images", [ImageController::class, "destroyAll"])->name("images.destroyAll");
+
+    //Message
+    Route::post('/chat-rooms/{chatRoom}/messages', [MessageController::class, 'store']);
+    Route::get('/chat-rooms/{chatRoom}/messages', [MessageController::class, 'show']);
+    Route::get('/chat-rooms', [MessageController::class, 'myMessages']);
+
+    //ChatRoom
+    Route::post('/chat-rooms/find-or-create', [ChatRoomController::class,"findOrCreate"]);
     
 });
 
