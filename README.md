@@ -4,24 +4,23 @@ At the end of each auction, the highest bid is automatically marked as the winni
 In addition to the auction system, the app features a built-in real-time chat that allows users to communicate directly. Buyers and sellers can exchange messages, negotiate terms, ask questions, and track message status — including whether a message has been delivered or read.
 The application combines secure backend logic, real-time user experience, and a clean **RESTful API**, offering a professional-grade foundation for further development, integration, or deployment.
 
-🔑 ##Key Features
-• 	Auction Creation & Management
+🔑 ## Key Features
+- Auction Creation & Management
 Users can create auctions for valuable items, set starting prices, define expiration dates, and manage active listings.
-• 	Competitive Bidding System
+- Competitive Bidding System
 Registered users can place bids on active auctions. The highest bid is marked as the winner at the end of the auction, but the seller must manually approve it before the transaction is finalized.
-• 	Real-Time Chat Between Users
+- Real-Time Chat Between Users
 Integrated 1-on-1 chat allows buyers and sellers to communicate directly, negotiate terms, and ask questions — all in real time.
-• 	Message Status Tracking
+- Message Status Tracking
 Messages include delivery and read status (, ), with real-time updates via Laravel Echo and Pusher.
-• 	Event Broadcasting
+- Event Broadcasting
 Backend emits  and  events to keep chat interfaces synchronized across users.
-• 	Email Notifications
+- Email Notifications
 Users receive email alerts for key events such as new bids, being outbid, or winning an auction — powered by Laravel Mail.
-• 	Secure RESTful API
+- Secure RESTful API
 All routes are protected via Laravel Sanctum, with clean separation of concerns and clear access control.
-• 	Database Integrity & Migrations
+- Database Integrity & Migrations
 Enum-based status logic, rollback-safe migrations, and consistent naming conventions ensure long-term maintainability.
-• 	Automated Testing
+- Automated Testing
 PHPUnit tests cover core logic, including bid validation, message access, event broadcasting, and API security.
-• 	Swagger-Ready API Documentation (optional)
-Easily extendable with OpenAPI annotations for interactive API docs and frontend integration.
+
