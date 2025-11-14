@@ -22,5 +22,5 @@ All routes are protected via Laravel Sanctum, with clean separation of concerns 
 - Database Integrity & Migrations
 Enum-based status logic, rollback-safe migrations, and consistent naming conventions ensure long-term maintainability.
 - Automated Testing
-PHPUnit tests cover core logic, including bid validation, message access, event broadcasting, and API security.
+PHPFeuters tests cover core logic, OVDE DODATI STA SVE IMAM OD TESTOVA
 
