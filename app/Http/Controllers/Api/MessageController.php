@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ChatRoom;
 use App\Models\Message;
 use App\Events\MessageSent;
+use App\Events\MessageRead;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -52,6 +53,20 @@ class MessageController extends Controller
             'message' => 'Message sent successfully.',
             'data' => $message,
         ], 201);
+    }
+
+    public function markAsRead(Message $message)
+    {
+        $user = Auth::user();
+
+        if ($message->chatRoom->users->contains($user->id) && $message->user_id !== $user->id) {
+            $message->update(['status' => 'seen']);
+
+            broadcast(new MessageRead($message))->toOthers();
+            return response()->json(['message' => 'Marked as read']);
+        }
+
+        return response()->json(['message' => 'Unauthorized'], 403);
     }
 
 
