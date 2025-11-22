@@ -9,6 +9,8 @@ The application combines secure backend logic, real-time user experience, and a 
 Users can create auctions for valuable items, set starting prices, define expiration dates, and manage active listings.
 - Competitive Bidding System
 Registered users can place bids on active auctions. The highest bid is marked as the winner at the end of the auction, but the seller must manually approve it before the transaction is finalized.
+- User Ratings & Reviews
+After an auction is completed, buyers and sellers can rate each other and leave feedback, ensuring trust, transparency, and a reputation system within the platform.
 - Real-Time Chat Between Users
 Integrated 1-on-1 chat allows buyers and sellers to communicate directly, negotiate terms, and ask questions — all in real time.
 - Message Status Tracking
