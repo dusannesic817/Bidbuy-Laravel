@@ -12,7 +12,7 @@ Registered users can place bids on active auctions. The highest bid is marked as
 - Real-Time Chat Between Users
 Integrated 1-on-1 chat allows buyers and sellers to communicate directly, negotiate terms, and ask questions — all in real time.
 - Message Status Tracking
-Messages include delivery and read status (, ), with real-time updates via Laravel Echo and Pusher.
+Messages include delivery and read status, with real-time updates via Laravel Echo and Pusher.
 - Event Broadcasting
 Backend emits  and  events to keep chat interfaces synchronized across users.
 - Email Notifications
