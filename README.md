@@ -25,7 +25,7 @@ Enum-based status logic, rollback-safe migrations, and consistent naming convent
 PHPFeuters tests cover core logic, OVDE DODATI STA SVE IMAM OD TESTOVA
 
 ### ⚙️ Tech Stack
-- Backend: Laravel 10, PHP 8
+- Backend: Laravel 12, PHP 8
 - Database: MySQL
 - Auth: Laravel Sanctum, Google OAuth
 - Real‑Time: Laravel Echo, Pusher
