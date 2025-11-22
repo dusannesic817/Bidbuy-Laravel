@@ -24,6 +24,15 @@ Enum-based status logic, rollback-safe migrations, and consistent naming convent
 - Automated Testing
 PHPFeuters tests cover core logic, OVDE DODATI STA SVE IMAM OD TESTOVA
 
+⚙️ Tech Stack
+• 	Backend: Laravel 10, PHP 8
+• 	Frontend: Blade, Tailwind CSS
+• 	Database: MySQL
+• 	Auth: Laravel Sanctum, Google OAuth
+• 	Real‑Time: Laravel Echo, Pusher
+• 	Testing: PHPUnit (feature & integration tests)
+• 	Documentation: Swagger/OpenAPI
+
 ### 🌐 API Services
 - Pusher – Real-time API service for implementing features like notifications and chat messages.  
 - Google Identity Services (OAuth 2.0) – Used for user registration and login via Google accounts.
