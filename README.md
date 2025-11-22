@@ -4,7 +4,7 @@ At the end of each auction, the highest bid is automatically marked as the winni
 In addition to the auction system, the app features a built-in real-time chat that allows users to communicate directly. Buyers and sellers can exchange messages, negotiate terms, ask questions, and track message status — including whether a message has been delivered or read.
 The application combines secure backend logic, real-time user experience, and a clean **RESTful API**, offering a professional-grade foundation for further development, integration, or deployment.
 
-## 🔑 Key Features
+### 🔑 Key Features
 - Auction Creation & Management
 Users can create auctions for valuable items, set starting prices, define expiration dates, and manage active listings.
 - Competitive Bidding System
@@ -24,3 +24,6 @@ Enum-based status logic, rollback-safe migrations, and consistent naming convent
 - Automated Testing
 PHPFeuters tests cover core logic, OVDE DODATI STA SVE IMAM OD TESTOVA
 
+### 🌐 API Services
+- Pusher – Real-time API service for implementing features like notifications and chat messages.  
+- Google Identity Services (OAuth 2.0) – Used for user registration and login via Google accounts.
