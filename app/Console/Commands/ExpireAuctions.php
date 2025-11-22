@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Auction;
 use App\Notifications\AuctionActionNotification;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AuctionExpiredMail;
 
 class ExpireAuctions extends Command
 {
@@ -25,6 +27,8 @@ class ExpireAuctions extends Command
         foreach ($expiredAuctions as $auction) {
             $auction->user->notify(new AuctionActionNotification($auction, null, 'expired'));
             $auction->update(['status' => 0]);
+            Mail::to($auction->user->email)->send(new AuctionExpiredMail($auction));
+
         }
 
         $this->info("Expired " . count($expiredAuctions) . " auctions and notified owners.");

@@ -52,7 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Offer
     Route::post('/auctions/{id}/offer', [OfferController::class, 'store'])->middleware('throttle:5,1')->name('offers.store');
     Route::get("/offers/my-offers",     [OfferController::class,"myOffers"])->name("offers.myOffers");
-    Route::patch('/offers/{offer}',     [OfferController::class, 'patch'])->name('offers.patch');
+    Route::patch('/offers/{auction}',     [OfferController::class, 'patch'])->name('offers.patch');
 
     //Profile
     Route::get("/profiles/my-profile",        [ProfileController::class,"myProfile"])->name("profiles.myProfile");

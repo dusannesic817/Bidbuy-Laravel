@@ -45,18 +45,4 @@ class AuctionActionNotification extends Notification
         return new BroadcastMessage($this->toArray($notifiable));
     }
 
-  /* public function toMail($notifiable)
-    {
-        $message = match ($this->type) {
-            'bid' => "{$this->sender->name} placed a bid on your auction: {$this->auction->title}",
-            'accepted' => "Your offer on {$this->auction->title} was accepted by {$this->sender->name}",
-            'rejected' => "Your offer on {$this->auction->title} was rejected by {$this->sender->name}",
-            default => "You have a new update regarding {$this->auction->title}",
-        };
-
-        return (new MailMessage)
-            ->subject("Auction update: {$this->auction->title}")
-            ->line($message)
-            ->action('View Auction', url("/auctions/{$this->auction->id}"));
-    }*/
 }

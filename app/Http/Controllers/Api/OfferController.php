@@ -10,16 +10,21 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Offer;
 use App\Http\Resources\OfferResource;
 use App\Notifications\AuctionActionNotification;
-
+use App\Mail\OfferStatusMail;
+use Illuminate\Support\Facades\Mail;
 
 class OfferController extends Controller
 {
- 
+
     public function index()
     {
-        return Auction::with('highestOffer')->find(1);
-        
-       
+        $highestOffer = Offer::with('user','auction')
+            ->where('auction_id', 11)
+            ->orderByDesc('price')
+            ->first();
+
+
+        return $highestOffer;
     }
 
     public function store(Request $request, $id)
@@ -35,34 +40,33 @@ class OfferController extends Controller
         }
 
         if ($auction->expiry_time && now()->greaterThan($auction->expiry_time)) {
-           return $this->errorMessage('The auction has already expired.', 422);
+            return $this->errorMessage('The auction has already expired.', 422);
         }
 
         $currentPrice = $auction->highestOffer->price ?? $auction->started_price;
 
         if ($request->price < $this->minimalOfferPrice($currentPrice)) {
-           return $this->errorMessage('Offer must be at least: ' . ($this->minimalOfferPrice($currentPrice)), 422);
+            return $this->errorMessage('Offer must be at least: ' . ($this->minimalOfferPrice($currentPrice)), 422);
         }
 
-        $offer=Offer::create([
+        $offer = Offer::create([
             'auction_id' => $id,
             'user_id'    => Auth::id(),
             'price'      => $request->price,
-            'status'     => 'Pending', 
+            'status'     => 'Pending',
         ]);
 
         $auction->load('highestOffer');
         $auction->user->notify(new AuctionActionNotification($auction, Auth::user(), 'bid'));
 
         return $this->successMessage('Your offer has been placed successfully', ['data' => $offer], 201);
-
     }
 
     public function myOffers()
     {
 
         $active = Offer::with('auction.images')
-            ->where('user_id',Auth::id())
+            ->where('user_id', Auth::id())
             ->whereHas('auction', fn($q) => $q->where('status', 1))
             ->latest()
             ->get();
@@ -81,46 +85,61 @@ class OfferController extends Controller
     }
 
 
-    public function patch (Request $request, Offer $offer){ //menjam status aukcije na osnovu najvise ponude
-        $highestOffer = Offer::with('auction')->where('auction_id', $offer->auction_id)
+    public function patch(Request $request, Auction $auction)
+    {
+        // pronađi najvišu ponudu za ovu aukciju
+        $highestOffer = Offer::with('user','auction')
+            ->where('auction_id', $auction->id)
             ->orderByDesc('price')
             ->first();
 
-        if($highestOffer->auction->user_id != Auth::id()){
-           return $this->errorMessage('You do not have permission to manage offers for this auction.', 403);
+        if (!$highestOffer) {
+            return $this->errorMessage('No offers found for this auction.', 404);
+        }
+
+        // samo vlasnik aukcije može da menja status
+        if ($auction->user_id != Auth::id()) {
+            return $this->errorMessage('You do not have permission to manage offers for this auction.', 403);
         }
 
         $validated = $request->validate([
             'status' => 'required|in:Accepted,Rejected',
         ]);
 
+        // ažuriraj status ponude
         $highestOffer->update([
             'status' => $validated['status'],
         ]);
 
+        // ako je aukcija završena, ažuriraj njen status
         if ($validated['status']) {
-            $highestOffer->auction->update([
-                'status' => 0,               
+            $auction->update([
+                'status' => 0, 
             ]);
         }
 
-        $bidder = User::find($highestOffer->user_id);
-        $auction = Auction::find($highestOffer->auction_id);
-        $bidder->notify(new AuctionActionNotification($auction, Auth::user(), strtolower($validated['status'])));
-        
-        return $this->successMessage("The offer has been {$validated['status']}.");
+        $bidder = $highestOffer->user;
 
+        // obavesti biddera preko notifikacije
+        $bidder->notify(new AuctionActionNotification(
+            $auction,
+            Auth::user(),
+            strtolower($validated['status'])
+        ));
+
+        // pošalji mejl bidderu
+        Mail::to($bidder->email)->send(new OfferStatusMail($highestOffer, $validated['status']));
+
+        return $this->successMessage("The highest offer has been {$validated['status']}.");
     }
 
 
-   
+
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Offer $offer)
-    {
-
-    }
+    public function update(Request $request, Offer $offer) {}
 
     /**
      * Remove the specified resource from storage.
@@ -131,18 +150,17 @@ class OfferController extends Controller
     }
 
 
-    public function minimalOfferPrice($currentPrice){
+    public function minimalOfferPrice($currentPrice)
+    {
 
-        if($currentPrice < 100){
+        if ($currentPrice < 100) {
             return $currentPrice + 2;
-        } elseif ($currentPrice >= 100 && $currentPrice < 1000){
+        } elseif ($currentPrice >= 100 && $currentPrice < 1000) {
             return $currentPrice + 5;
-        } elseif ($currentPrice >= 1000 && $currentPrice < 10000){
+        } elseif ($currentPrice >= 1000 && $currentPrice < 10000) {
             return $currentPrice + 20;
         } else {
             return $currentPrice + 50;
         }
-
     }
-
 }
