@@ -1,7 +1,5 @@
 # Bidbuy
-# Modern Auction Platform
 A professional auction system where users can list valuable items, place competitive bids, and communicate in real time.
-
 This is a modern auction platform designed for users to showcase and sell valuable items, collectibles, and personal treasures through timed bidding. Each user can create auctions, set starting prices, define expiration dates, and allow others to place competitive bids.
 At the end of each auction, the highest bid is automatically marked as the winning offer, but the seller retains full control — they must manually approve the winning bid if the offered price meets their expectations. This ensures flexibility and seller satisfaction in finalizing transactions.
 In addition to the auction system, the app features a built-in real-time chat that allows users to communicate directly. Buyers and sellers can exchange messages, negotiate terms, ask questions, and track message status — including whether a message has been delivered or read.
