@@ -50,9 +50,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     //Offer
-    Route::post('/auctions/{id}/offer', [OfferController::class, 'store'])->middleware('throttle:5,1')->name('offers.store');
+    Route::post('/auctions/{id}/offer', [OfferController::class, 'store'])->middleware('throttle:5,1')->name('offers.store')->middleware('profile.complete');
     Route::get("/offers/my-offers",     [OfferController::class,"myOffers"])->name("offers.myOffers");
-    Route::patch('/offers/{auction}',     [OfferController::class, 'patch'])->name('offers.patch');
+    Route::patch('/offers/{auction}',     [OfferController::class, 'patch'])->name('offers.patch')->middleware('profile.complete');
 
     //Profile
     Route::put("/profiles/{id}",       [ProfileController::class,"update"]);
@@ -65,13 +65,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Review
     Route::get("/reviews/my-reviews",           [ReviewController::class,"myReviews"])->name("reviews.myReviews");
-    Route::post("/auctions/{auction}/reviews",  [ReviewController::class,"store"])->name("reviews.store");
+    Route::post("/auctions/{auction}/reviews",  [ReviewController::class,"store"])->name("reviews.store")->middleware('profile.complete');
 
     //Views
     Route::get("/views/{id}", [ViewController::class,"count"])->name("views.count");
 
     //Images
-    Route::post("/auctions/{id}/images",        [ImageController::class,"store"])->name("images.store");
+    Route::post("/auctions/{id}/images",        [ImageController::class,"store"])->name("images.store")->middleware('profile.complete');
     Route::delete("/images/{id}",               [ImageController::class,"destroy"])->name("images.destroy");
     Route::delete("/auctions/{auction}/images", [ImageController::class, "destroyAll"])->name("images.destroyAll");
 
