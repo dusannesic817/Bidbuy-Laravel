@@ -55,6 +55,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/offers/{auction}',     [OfferController::class, 'patch'])->name('offers.patch');
 
     //Profile
+    Route::put("/profiles/{id}",       [ProfileController::class,"update"]);
     Route::get("/profiles/my-profile",        [ProfileController::class,"myProfile"])->name("profiles.myProfile");
     Route::delete("/profiles/{id}",           [ProfileController::class,"destroy"])->name("profiles.destroy");
     Route::put("/profiles/{id}",              [ProfileController::class,"update"])->name("profiles.update");

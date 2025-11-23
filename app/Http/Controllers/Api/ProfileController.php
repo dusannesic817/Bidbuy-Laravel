@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Auction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -26,7 +28,7 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -80,7 +82,29 @@ class ProfileController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = Auth::user();
+
+        if ($user->id != $id) {
+            return $this->errorMessage('You dont have permission', 403);
+        }
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'username' => ['required', 'string', 'min:3', 'max:50'],
+            'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
+            'address' => ['required','string','max:255'],
+            'number' => ['required','string','max:20'],
+        ]);
+
+        
+        if (! empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+        return response()->json(['message' => 'Profile updated.'], 200);
     }
 
     /**
@@ -88,6 +112,6 @@ class ProfileController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
     }
 }
