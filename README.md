@@ -25,7 +25,7 @@ All routes are protected via Laravel Sanctum, with clean separation of concerns 
 - Database Integrity & Migrations
 Enum-based status logic, rollback-safe migrations, and consistent naming conventions ensure long-term maintainability.
 - Automated Testing
-PHPFeuters tests cover core logic, OVDE DODATI STA SVE IMAM OD TESTOVA
+PHPFeuters tests cover core logic
 
 ### ⚙️ Tech Stack
 - Backend: Laravel 12, PHP 8
@@ -33,4 +33,8 @@ PHPFeuters tests cover core logic, OVDE DODATI STA SVE IMAM OD TESTOVA
 - Auth: Laravel Sanctum, Google OAuth
 - Real‑Time: Laravel Echo, Pusher
 - Testing: PHPUnit (feature & integration tests)
+
+### 🧪 Testing
+- Feature tests for auction creation, bidding, and user actions
+- 
 
