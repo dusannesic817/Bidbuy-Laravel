@@ -41,12 +41,12 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth:sanctum'])->group(function () {
     //Auctions
-    Route::post("/auctions",                 [AuctionController::class,"store"])->name("auctions.store");
+    Route::post("/auctions",                 [AuctionController::class,"store"])->name("auctions.store")->middleware('profile.complete');
     Route::post("/auctions/{id}/follow",     [AuctionController::class,"followAuction"])->name("auctions.followAuction");
-    Route::put("/auctions/{id}",             [AuctionController::class,"update"])->name("auctions.update");
+    Route::put("/auctions/{id}",             [AuctionController::class,"update"])->name("auctions.update")->middleware('profile.complete');
     Route::delete("/auctions/{id}",          [AuctionController::class,"destroy"])->name("auctions.destroy");
     Route::delete("/auctions/{id}/unfollow", [AuctionController::class,"unfollowAuction"])->name("auctions.unfollowAuction");
-    Route::get('/auctions/{auction}/offers', [AuctionController::class, 'auctionOffers'])->name('auctions.offers');
+    Route::get('/auctions/{auction}/offers', [AuctionController::class, 'auctionOffers'])->name('auctions.offers')->middleware('profile.complete');
 
 
     //Offer
@@ -56,6 +56,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Profile
     Route::put("/profiles/{id}",       [ProfileController::class,"update"]);
+    Route::post("/profiles/completeProfile",       [ProfileController::class,"completeProfile"]);
     Route::get("/profiles/my-profile",        [ProfileController::class,"myProfile"])->name("profiles.myProfile");
     Route::delete("/profiles/{id}",           [ProfileController::class,"destroy"])->name("profiles.destroy");
     Route::put("/profiles/{id}",              [ProfileController::class,"update"])->name("profiles.update");

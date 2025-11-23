@@ -26,9 +26,21 @@ class ProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function completeProfile(Request $request)
     {
-        
+        $validated = $request->validate([
+                'username' => ['required', 'string', 'max:50', 'unique:users,password'],
+                'address' => ['required', 'string', 'max:255', 'unique:users,address'],
+                'number' => ['required', 'string', 'max:20', 'unique:users,number'],
+        ]);
+
+        $user = Auth::user();
+        $user->update($validated);
+
+        return response()->json([
+            'message' => 'Profile completed successfully',
+            'user' => $user
+        ]);
     }
 
     /**
