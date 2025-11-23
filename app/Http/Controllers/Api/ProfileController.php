@@ -15,13 +15,6 @@ use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -79,14 +72,11 @@ class ProfileController extends Controller
 
     public function followedAuctions()
     {
-
         $user = User::findOrFail(intval(Auth::id()));
         $followed= $user->followedAuctions()->with('highestOffer','images')->paginate(10);
         return FollowedAuctionsResource::collection($followed);
-        
+
     }
-
-
 
     
     /**
@@ -117,13 +107,5 @@ class ProfileController extends Controller
 
         $user->update($validated);
         return response()->json(['message' => 'Profile updated.'], 200);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        
     }
 }

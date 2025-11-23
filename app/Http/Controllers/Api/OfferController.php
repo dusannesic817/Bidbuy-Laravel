@@ -16,17 +16,6 @@ use Illuminate\Support\Facades\Mail;
 class OfferController extends Controller
 {
 
-    public function index()
-    {
-        $highestOffer = Offer::with('user','auction')
-            ->where('auction_id', 11)
-            ->orderByDesc('price')
-            ->first();
-
-
-        return $highestOffer;
-    }
-
     public function store(Request $request, $id)
     {
         $request->validate([
@@ -87,7 +76,7 @@ class OfferController extends Controller
 
     public function patch(Request $request, Auction $auction)
     {
-        // pronađi najvišu ponudu za ovu aukciju
+       
         $highestOffer = Offer::with('user','auction')
             ->where('auction_id', $auction->id)
             ->orderByDesc('price')
@@ -97,7 +86,7 @@ class OfferController extends Controller
             return $this->errorMessage('No offers found for this auction.', 404);
         }
 
-        // samo vlasnik aukcije može da menja status
+        
         if ($auction->user_id != Auth::id()) {
             return $this->errorMessage('You do not have permission to manage offers for this auction.', 403);
         }
@@ -106,12 +95,12 @@ class OfferController extends Controller
             'status' => 'required|in:Accepted,Rejected',
         ]);
 
-        // ažuriraj status ponude
+        
         $highestOffer->update([
             'status' => $validated['status'],
         ]);
 
-        // ako je aukcija završena, ažuriraj njen status
+        
         if ($validated['status']) {
             $auction->update([
                 'status' => 0, 
@@ -120,35 +109,15 @@ class OfferController extends Controller
 
         $bidder = $highestOffer->user;
 
-        // obavesti biddera preko notifikacije
         $bidder->notify(new AuctionActionNotification(
             $auction,
             Auth::user(),
             strtolower($validated['status'])
         ));
-
-        // pošalji mejl bidderu
+       
         Mail::to($bidder->email)->send(new OfferStatusMail($highestOffer, $validated['status']));
-
         return $this->successMessage("The highest offer has been {$validated['status']}.");
     }
-
-
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Offer $offer) {}
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
 
     public function minimalOfferPrice($currentPrice)
     {

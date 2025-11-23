@@ -90,7 +90,6 @@ class AuctionController extends Controller
         return new AuctionResource($auction);
     }
 
-
     public function auctionOffers(Auction $auction)
     {
        
@@ -105,7 +104,6 @@ class AuctionController extends Controller
             'offers' => $offers
         ]);
     }
-
     
     public function update(Request $request, string $id)
     {
@@ -138,7 +136,6 @@ class AuctionController extends Controller
         $auction->update($auctionData);
 
         return $this->successMessage('Successfully changed data!', ['data' => $auction]);
-
    
     }
 
@@ -164,8 +161,6 @@ class AuctionController extends Controller
     public function destroy(string $id)
     {
         return Auction::destroy($id);
-
-        
     }
 
    public function search(Request $request)

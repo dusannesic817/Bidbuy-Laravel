@@ -52,11 +52,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Offer
     Route::post('/auctions/{id}/offer', [OfferController::class, 'store'])->middleware('throttle:5,1')->name('offers.store')->middleware('profile.complete');
     Route::get("/offers/my-offers",     [OfferController::class,"myOffers"])->name("offers.myOffers");
-    Route::patch('/offers/{auction}',     [OfferController::class, 'patch'])->name('offers.patch')->middleware('profile.complete');
+    Route::patch('/offers/{auction}',   [OfferController::class, 'patch'])->name('offers.patch')->middleware('profile.complete');
 
     //Profile
-    Route::put("/profiles/{id}",       [ProfileController::class,"update"]);
-    Route::post("/profiles/completeProfile",       [ProfileController::class,"completeProfile"]);
+    Route::put("/profiles/{id}",              [ProfileController::class,"update"]);
+    Route::post("/profiles/completeProfile",  [ProfileController::class,"completeProfile"]);
     Route::get("/profiles/my-profile",        [ProfileController::class,"myProfile"])->name("profiles.myProfile");
     Route::delete("/profiles/{id}",           [ProfileController::class,"destroy"])->name("profiles.destroy");
     Route::put("/profiles/{id}",              [ProfileController::class,"update"])->name("profiles.update");
@@ -79,7 +79,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/chat-rooms/{chatRoom}/messages', [MessageController::class, 'store']);
     Route::get( '/chat-rooms/{chatRoom}/messages', [MessageController::class, 'show']);
     Route::get( '/chat-rooms',                     [MessageController::class, 'myMessages']);
-    Route::put('/messages/{message}/seen',        [MessageController::class,'markAsRead']);
+    Route::put('/messages/{message}/seen',         [MessageController::class,'markAsRead']);
 
 
     //ChatRoom

@@ -35,27 +35,4 @@ class ChatRoomController extends Controller
     ]);
 }
 
-/*public function findOrCreate(Request $request)
-{
-    $userAId = Auth::id();
-    $userBId = 2; // hardkodovani drugi korisnik
-
-    $room = ChatRoom::whereHas('users', fn($q) => $q->where('users.id', $userAId))
-        ->whereHas('users', fn($q) => $q->where('users.id', $userBId))
-        ->withCount('users')
-        ->having('users_count', 2)
-        ->first();
-
-    if (!$room) {
-        $room = ChatRoom::create();
-        $room->users()->attach([$userAId, $userBId]);
-    }
-
-    return response()->json([
-        'room_id' => $room->id,
-        'message' => 'Chat room ready.',
-    ]);
-}*/
-
-
 }
