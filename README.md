@@ -4,15 +4,17 @@ At the end of each auction, the highest bid is automatically marked as the winni
 In addition to the auction system, the app features a built-in real-time chat that allows users to communicate directly. Buyers and sellers can exchange messages, negotiate terms, ask questions, and track message status — including whether a message has been delivered or read.
 The application combines secure backend logic, real-time user experience, and a clean **RESTful API**, offering a professional-grade foundation for further development, integration, or deployment.
 
-## 🔑 Key Features
+### 🔑 Key Features
 - Auction Creation & Management
 Users can create auctions for valuable items, set starting prices, define expiration dates, and manage active listings.
 - Competitive Bidding System
 Registered users can place bids on active auctions. The highest bid is marked as the winner at the end of the auction, but the seller must manually approve it before the transaction is finalized.
+- User Ratings & Reviews
+After an auction is completed, buyers and sellers can rate each other and leave feedback, ensuring trust, transparency, and a reputation system within the platform.
 - Real-Time Chat Between Users
 Integrated 1-on-1 chat allows buyers and sellers to communicate directly, negotiate terms, and ask questions — all in real time.
 - Message Status Tracking
-Messages include delivery and read status (, ), with real-time updates via Laravel Echo and Pusher.
+Messages include delivery and read status, with real-time updates via Laravel Echo and Pusher.
 - Event Broadcasting
 Backend emits  and  events to keep chat interfaces synchronized across users.
 - Email Notifications
@@ -23,4 +25,11 @@ All routes are protected via Laravel Sanctum, with clean separation of concerns 
 Enum-based status logic, rollback-safe migrations, and consistent naming conventions ensure long-term maintainability.
 - Automated Testing
 PHPFeuters tests cover core logic, OVDE DODATI STA SVE IMAM OD TESTOVA
+
+### ⚙️ Tech Stack
+- Backend: Laravel 12, PHP 8
+- Database: MySQL
+- Auth: Laravel Sanctum, Google OAuth
+- Real‑Time: Laravel Echo, Pusher
+- Testing: PHPUnit (feature & integration tests)
 
