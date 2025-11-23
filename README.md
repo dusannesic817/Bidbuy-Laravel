@@ -35,6 +35,7 @@ PHPFeuters tests cover core logic
 - Testing: PHPUnit (feature & integration tests)
 
 ### 🧪 Testing
-- Feature tests for auction creation, bidding, and user actions
-- 
+- ✅ **Auction Creation & Update** – ensures users can create and update auctions correctly.
+- ✅ **Bidding System** – tests placing bids, including enforcing minimal starting prices.
+- ✅ **User Permissions** – validates that only authorized users can modify or bid on auctions.
 
